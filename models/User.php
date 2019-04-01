@@ -22,7 +22,6 @@ use yii\web\IdentityInterface;
 class User extends ActiveRecord implements IdentityInterface
 {
     public $password;
-    public $verifyCode;
     /**
      * @inheritdoc
      */
@@ -55,7 +54,6 @@ class User extends ActiveRecord implements IdentityInterface
             ['email', 'unique', 'targetClass' => '\app\models\User', 'message' => 'Такая почта уже занята.'],
             ['password', 'string', 'min' => 6],
             [['user_name', 'user_second_name', 'address', 'phone_number'], 'string', 'max' => 50],
-            ['verifyCode', 'captcha'],
         ];
     }
 
@@ -132,6 +130,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->getAuthKey() === $authKey;
     }
+
     /**
      * Validates password
      *

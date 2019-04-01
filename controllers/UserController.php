@@ -28,6 +28,7 @@ class UserController extends Controller
                         'actions' => [
                             'logout',
                             'sign-in',
+                            'login',
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -71,16 +72,18 @@ class UserController extends Controller
 
     public function actionSignIn()
     {
-        $model = new User();
+        $model = new LoginForm();
+        $modelUser = new User();
 
-        if ($model->load(Yii::$app->request->post())) {
-            $model->setPassword($model->password);
-            $model->generateAuthKey();
-            $model->save();
+        if ($modelUser->load(Yii::$app->request->post())) {
+            $modelUser->setPassword($model->password);
+            $modelUser->generateAuthKey();
+            $modelUser->save();
         }
 
         return $this->render('sign_in', [
             'model' => $model,
+            'modelUser' => $modelUser,
         ]);
     }
 
@@ -94,15 +97,15 @@ class UserController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
-        $model = new User();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        $model = new LoginForm();
+        $modelUser = new User();
+        if ($model->load(Yii::$app->request->post()) && $model->logIn()) {
             return $this->goBack();
         }
-
         $model->password = '';
-        return $this->render('login', [
+        return $this->render('sign_in', [
             'model' => $model,
+            'modelUser' => $modelUser,
         ]);
     }
 
