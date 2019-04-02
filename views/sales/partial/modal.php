@@ -39,7 +39,7 @@ Modal::begin([
 <?php $form = ActiveForm::begin([
     'id' => 'form_sales',
     'action' => [
-        '/sales/'.$action,
+        'sales/'.$action,
         'id' => $model->id
     ],
     'method' => 'post',

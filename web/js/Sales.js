@@ -38,9 +38,7 @@
                     container: '#formSales',
                     timeout: 7000
                 });
-
-                self.$modalFc.modal('show');
-
+                self.$modal.modal('show');
                 return false;
             }
         });

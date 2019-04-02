@@ -4,9 +4,7 @@
     </button>
     <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu">
         <li>{update}</li>
-        <?php if ($id !== 1) :?>
-            <li class="divider"></li>
-            <li>{delete}</li>
-        <?php endif;?>
+        <li class="divider"></li>
+        <li>{delete}</li>
     </ul>
 </div>

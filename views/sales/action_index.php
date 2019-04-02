@@ -11,7 +11,7 @@ use app\assets\SalesAsset;
 use app\models\Sales;
 use kartik\select2\Select2;
 use yii\grid\ActionColumn;
-use rmrevin\yii\fontawesome\FA;
+use rmrevin\yii\fontawesome\FAS;
 use yii\widgets\Pjax;
 
 SalesAsset::register($this);
@@ -98,6 +98,39 @@ print_r($request);
                                         return "<div class='cell-color' style='background-color: " . $model->color . ";'></div>";
                                     },
                                 ],
+                                [
+                                    'class' => ActionColumn::class,
+                                    'headerOptions' => ['class' => 'text-center'],
+                                    'contentOptions' => ['class' => 'text-center'],
+                                    'header' => 'Actions',
+                                    'template' => $this->render('partial/setting'),
+                                    'buttons' => [
+                                        'update' => function ($url, $model) {
+                                            $icon = FAS::icon('pencil', ['class' => 'fa-fw', ]);
+                                            return Html::a($icon . ' Edit',
+                                                [
+                                                    'sales/update-sales',
+                                                    'id' => $model->id,
+                                                ],
+                                                [
+                                                    'data-pjax' => 0,
+                                                    'class' => 'update',
+                                                ]
+                                            );
+                                        },
+                                        'delete' => function ($url, $model) {
+                                            $icon = FAS::icon('trash', ['class' => 'fa-fw']);
+
+                                            return Html::a($icon . ' Delete',
+                                                ['sales/delete-sales', 'id' => $model->id],
+                                                [
+                                                    'data-pjax' => 0,
+                                                    'data-confirm' => Sales::getDeleteMessage($model->name)
+                                                ]
+                                            );
+                                        },
+                                    ]
+                                ]
                             ],
                         ]); ?>
                         <?php Pjax::end(); ?>

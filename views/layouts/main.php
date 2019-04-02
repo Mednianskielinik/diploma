@@ -39,8 +39,10 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Главная', 'url' => ['/site/index']],
-            ['label' => 'Скидочные этапы', 'url' => ['/sales/index']],
             ['label' => 'Меню', 'url' => ['/site/contact']],
+            Yii::$app->user->id == '1' ?
+               (['label' => 'Скидочные этапы', 'url' => ['/sales/index']]) : '',
+
             Yii::$app->user->isGuest ? (
                 ['label' => 'Авторизация', 'url' => ['/user/sign-in']]
             ) : (

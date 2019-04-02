@@ -70,13 +70,13 @@ class SalesController extends Controller
      */
     public function actionUpdateSales($id) {
         $request = Yii::$app->request;
-        $model = $this->findModelSickDayFc($id);
+        $model = $this->findModelSales($id);
 
         if ($request->isPjax && $request->isPost && $model->load($request->post()) && $model->validate()) {
             $model->save();
         }
 
-        return $this->renderAjax('partial/modal_fc', [
+        return $this->renderAjax('partial/modal', [
             'model' => $model,
         ]);
     }
@@ -87,14 +87,14 @@ class SalesController extends Controller
      * @return bool|\yii\web\Response
      */
     public function actionDeleteSales($id) {
-        if ($id && $id != 1 && SickDaysFc::deleteAll(['id' => $id])) {
+        if ($id && Sales::deleteAll(['id' => $id])) {
             return $this->redirect(Yii::$app->request->referrer);
         }
         return false;
     }
 
     public function findModelSales($id) {
-        if ($model = SickDaysFc::findOne((int)$id)) {
+        if ($model = Sales::findOne((int)$id)) {
             return $model;
         } else {
             throw new Exception('Wrong period');
