@@ -54,13 +54,13 @@ print_r($request);
                                     <?php foreach ($dataProvider->getModels() as $item):?>
                                         <div class="col-md-3 col-sm-6">
                                             <div class="shopping-item">
+                                            <div class="add-to-cart"><a href="<?= \yii\helpers\Url::to(['menu/add-to-cart', 'id' => $item->id])?>"><i class="fas fa-shopping-basket"></i> Добавить в корзину</a></div>
                                             <img class="img-responsive" src="../img/<?=$item->image?>" alt="" />
-                                            <h4 class="pull-left"><?=$item->name?></h4>
-                                            <span class="item-price pull-right">$<?=$item->cost?></span>
-                                            <div class="clearfix"></div>
-                                            <div class="item-hover br-red hidden-xs"></div>
-                                            <a href="<?= \yii\helpers\Url::to(['menu/add-to-cart', 'id' => $item->id])?>" class="link hidden-xs add-to-cart" data-id="<?=$item->id?>" >Заказать</a>
-                                            </div>
+                                            <div class="product"><h4><?=$item->name?></h4></div>
+                                            <div class="item-price"><?=$item->cost?> BYN</div>
+                                            <div class="item-weight"><?=$item->weight?> грамм</div>
+                                            <div class="components"><?=$item->components?></div>
+                                           </div>
                                         </div>
 
                                     <?php endforeach;?>
@@ -73,7 +73,6 @@ print_r($request);
         </div>
     </div>
 </div>
-<?php echo '<pre>'; print_r(\Yii::$app->cart); ?>
 <?= $this->render('@app/views/menu/partial/modal', [
     'model' => new Menu(),
 ]); ?>

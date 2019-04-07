@@ -106,7 +106,7 @@ print_r($request);
                                     'template' => $this->render('partial/setting'),
                                     'buttons' => [
                                         'update' => function ($url, $model) {
-                                            $icon = FAS::icon('pencil', ['class' => 'fa-fw', ]);
+                                            $icon = FAS::icon('edit', ['class' => 'fa-fw', ]);
                                             return Html::a($icon . ' Edit',
                                                 [
                                                     'sales/update-sales',
