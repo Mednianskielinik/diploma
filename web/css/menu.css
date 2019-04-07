@@ -1,0 +1,50 @@
+.inner-page .shopping .shopping-item {
+    position: relative;
+    max-width: 400px;
+    text-align: center;
+    margin: 0px auto 30px;
+    padding: 5px;
+    background: rgb(255, 255, 255);
+    border-width: 4px;
+    border-style: solid;
+    border-color: rgb(238, 238, 238);
+    border-image: initial;
+    overflow: hidden;
+    transition: all 0.4s ease-in-out 0s;
+}
+
+.inner-page .shopping .shopping-item span.item-price {
+    display: inline-block;
+    margin-top: 15px;
+    margin-right: 10px;
+    font-size: 20px;
+    font-family: "Open Sans Condensed", sans-serif;
+    line-height: 26px;
+    font-weight: 700;
+}
+
+.pull-right {
+    float: right !important;
+}
+
+.inner-page .shopping .shopping-item h4 {
+    margin-top: 15px;
+    margin-left: 10px;
+    font-size: 16px;
+    line-height: 26px;
+}
+
+.pull-left {
+    float: left !important;
+}
+
+.inner-page .shopping .shopping-item img {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(245, 245, 245);
+    border-image: initial;
+}
+
+img {
+    vertical-align: middle;
+}

@@ -39,10 +39,9 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Главная', 'url' => ['/site/index']],
-            ['label' => 'Меню', 'url' => ['/site/contact']],
-            Yii::$app->user->id == '1' ?
-               (['label' => 'Скидочные этапы', 'url' => ['/sales/index']]) : '',
-
+            ['label' => 'Меню', 'url' => ['/menu/index']],
+            ['label' => 'Скидочные этапы',  'visible' => Yii::$app->user->id == 1 , 'url' => ['/sales/index']],
+            ['label' => 'Корзина '.$itemsCount = \Yii::$app->cart->getCount(),  'visible' => !Yii::$app->user->isGuest , 'url' => ['/site/basket']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Авторизация', 'url' => ['/user/sign-in']]
             ) : (

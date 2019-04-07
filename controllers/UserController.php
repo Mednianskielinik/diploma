@@ -75,8 +75,8 @@ class UserController extends Controller
         $model = new LoginForm();
         $modelUser = new User();
 
-        if ($modelUser->load(Yii::$app->request->post())) {
-            $modelUser->setPassword($model->password);
+        if ($modelUser->load(Yii::$app->request->post()) && $modelUser->validate()) {
+            $modelUser->setPassword($modelUser->password);
             $modelUser->generateAuthKey();
             $modelUser->save();
         }

@@ -23,7 +23,7 @@ class SiteController extends Controller
                 'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'basket', 'confirm-order'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -62,6 +62,21 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    /**
+     * Displays homepage.
+     *
+     * @return string
+     */
+    public function actionBasket()
+    {
+        $sum = 0;
+        foreach (\Yii::$app->cart->getPositions() as $item) {
+            $count = $item->cost * $item->getQuantity();
+            $sum += $count;
+        }
+        return $this->render('basket', ['sum' => $sum]);
     }
 
     /**
@@ -146,5 +161,10 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionConfirmOrder()
+    {
+
     }
 }

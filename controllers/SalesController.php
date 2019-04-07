@@ -3,8 +3,6 @@
 namespace app\controllers;
 
 use yii\db\Exception;
-use yii\helpers\ArrayHelper;
-use yii\web\BadRequestHttpException;
 use app\models\Sales;
 use yii\web\Controller;
 use yii\filters\AccessControl;
