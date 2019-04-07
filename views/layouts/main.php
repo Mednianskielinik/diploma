@@ -19,6 +19,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -41,7 +42,7 @@ AppAsset::register($this);
             ['label' => 'Главная', 'url' => ['/site/index']],
             ['label' => 'Меню', 'url' => ['/menu/index']],
             ['label' => 'Скидочные этапы',  'visible' => Yii::$app->user->id == 1 , 'url' => ['/sales/index']],
-            ['label' => 'Корзина '.$itemsCount = \Yii::$app->cart->getCount(),  'visible' => !Yii::$app->user->isGuest , 'url' => ['/site/basket']],
+            ['label' => 'Корзина '.$itemsCount = \Yii::$app->cart->getCount(),  'visible' => !Yii::$app->user->isGuest && \Yii::$app->cart->getCount() > 0 , 'url' => ['/site/basket']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Авторизация', 'url' => ['/user/sign-in']]
             ) : (

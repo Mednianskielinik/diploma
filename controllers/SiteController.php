@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Order;
+use app\models\OrderItem;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -135,36 +137,26 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
-
     public function actionConfirmOrder()
     {
-
+        $sum = 0;
+        foreach (\Yii::$app->cart->getPositions() as $item) {
+            $count = $item->cost * $item->getQuantity();
+            $sum += $count;
+        }
+        $order = new Order();
+        $order->user_id = Yii::$app->user->id;
+        $order->date = (new \DateTime('now'))->format('Y-m-d');
+        $order->sum_of_order = $sum;
+        $order->save();
+        foreach (\Yii::$app->cart->getPositions() as $item) {
+            $orderItem = new OrderItem();
+            $orderItem->order = $order->id;
+            $orderItem->item = $item->id;
+            $orderItem->count = $item->getQuantity();
+            $orderItem->save();
+        }
+        \Yii::$app->cart->removeAll();
+        return $this->redirect(Yii::$app->request->referrer);
     }
 }
