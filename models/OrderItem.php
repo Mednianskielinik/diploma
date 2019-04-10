@@ -34,4 +34,8 @@ class OrderItem extends ActiveRecord
             'count' => 'Колличество',
         ];
     }
+
+    public function getMenu() {
+        return $this->hasOne(Menu::class, ['id' => 'item']);
+    }
 }

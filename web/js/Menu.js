@@ -28,9 +28,7 @@
 
         this.$gridPjax.on('click', function (event) {
             var target = $(event.target);
-
             if (target.hasClass('update') || target.hasClass('fa-pencil')) {
-
                 $.pjax.reload({
                     push: false,
                     replace: false,

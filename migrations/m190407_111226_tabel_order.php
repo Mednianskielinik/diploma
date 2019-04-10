@@ -19,8 +19,9 @@ class m190407_111226_tabel_order extends Migration
         $this->createTable('{{%order}}', [
             'id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull(),
-            'date' => $this->date()->notNull(),
+            'date' => $this->timestamp()->notNull(),
             'sum_of_order' => $this->integer()->notNull(),
+            'confirm' => $this->boolean()->defaultValue(false),
         ], $tableOptions);
     }
 

@@ -10,7 +10,7 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\ContactForm;
+use app\models\Menu;
 
 class SiteController extends Controller
 {
@@ -25,7 +25,7 @@ class SiteController extends Controller
                 'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout', 'basket', 'confirm-order'],
+                        'actions' => ['logout', 'basket', 'confirm-order', 'order'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -63,7 +63,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $model = new Menu();
+        $dataProvider = $model->search();
+        return $this->render('index',['dataProvider' => $dataProvider,]);
     }
 
     /**
@@ -146,7 +148,7 @@ class SiteController extends Controller
         }
         $order = new Order();
         $order->user_id = Yii::$app->user->id;
-        $order->date = (new \DateTime('now'))->format('Y-m-d');
+        $order->date = (new \DateTime('now'))->format('Y-m-d H:i:s');
         $order->sum_of_order = $sum;
         $order->save();
         foreach (\Yii::$app->cart->getPositions() as $item) {
@@ -158,5 +160,13 @@ class SiteController extends Controller
         }
         \Yii::$app->cart->removeAll();
         return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionOrders()
+    {
+        $orders = Order::getOrders();
+        return $this->render('orders', [
+            'orders' => $orders,
+        ]);
     }
 }

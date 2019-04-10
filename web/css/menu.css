@@ -71,8 +71,50 @@ img {
     margin-top: 5px;
     margin-bottom: 10px;
 }
+
+.update {
+    font-weight: 300;
+}
+
+
 .img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
     display: inline !important;
     max-width: 100%;
     height: auto;
+}
+
+
+.order-table {
+    border: 1px solid #ffffff;
+    margin-top: 5%;
+    width: 99%;
+}
+
+.order-table th {
+    border: 1px solid #373737;
+    background-color: #d8d8d8;
+    text-align: center;
+    font-weight: bold;
+    padding: 3px;
+}
+
+.order-table td {
+    border: 1px solid #373737;
+    text-align: center;
+    padding: 5px;
+}
+
+.order-table tr:first-child {
+    padding: 5px;
+    text-align: center;
+}
+
+.fas {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.dishes {
+    position: relative;
+    margin-top: 270px;
 }

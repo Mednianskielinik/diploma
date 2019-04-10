@@ -39,7 +39,7 @@ print_r($request);
             <div class="container-fluid margin-top-20">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-xs-12">
-                        <?= Html::a('Add',
+                        <?= Html::a('Добавить',
                             [
                                 'sales/create-sales',
                             ],
@@ -107,7 +107,7 @@ print_r($request);
                                     'buttons' => [
                                         'update' => function ($url, $model) {
                                             $icon = FAS::icon('edit', ['class' => 'fa-fw', ]);
-                                            return Html::a($icon . ' Edit',
+                                            return Html::a($icon . ' Изменить',
                                                 [
                                                     'sales/update-sales',
                                                     'id' => $model->id,
@@ -144,4 +144,4 @@ print_r($request);
 <?= $this->render('@app/views/sales/partial/modal', [
     'model' => new Sales(),
 ]); ?>
-<?//= $this->render('@app/components/modalDelete/modalDelete'); ?>
+<?= $this->render('@app/components/modalDelete/modalDelete'); ?>

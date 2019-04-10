@@ -34,4 +34,24 @@ class Order extends ActiveRecord
             'date' => 'Дата заказа',
         ];
     }
+
+    public function getOrderItem() {
+        return $this->hasMany(OrderItem::class, ['order' => 'id'])->with('menu');
+    }
+
+    public function getUser() {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public static function getOrders() {
+        $orders = self::find()
+            ->where(['=', 'confirm', false])
+            ->joinWith('user')
+            ->joinWith('orderItem')
+            ->orderBy('order.date')
+            ->asArray()
+            ->all();
+
+        return $orders;
+    }
 }

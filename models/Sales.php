@@ -71,7 +71,30 @@ class Sales extends ActiveRecord
             : '';
     }
 
-    public static function getDeleteMessage($periodName) {
+    public static function getSale($userId, $date)
+    {
+        $purchases = Order::find()
+            ->where(['=', 'user_id', $userId])
+            ->andWhere(['<', 'date', $date])
+            ->asArray()
+            ->all();
+
+        $periods = self::find()
+            ->where(['<=', 'count_of_purchase', count($purchases)])
+            ->orderBy(['sale' => SORT_ASC])
+            ->asArray()
+            ->all();
+        return end($periods)['sale'];
+    }
+
+    public static function getSumWithSale($sum, $userId, $date)
+    {
+        $sale = self::getSale($userId, $date);
+        return $sum/100*(100-$sale);
+    }
+
+    public static function getDeleteMessage($periodName)
+    {
         return "Are you sure you want to delete <strong>".$periodName." period?";
     }
 

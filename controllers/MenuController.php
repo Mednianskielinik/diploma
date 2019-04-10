@@ -7,6 +7,7 @@ use app\models\Menu;
 use Yii;
 use yii\web\UploadedFile;
 use yii\web\NotFoundHttpException;
+use yii\db\Exception;
 
 class MenuController extends Controller
 {
@@ -27,6 +28,8 @@ class MenuController extends Controller
                             'delete-from-cart',
                             'minus-from-cart',
                             'plus-from-cart',
+                            'delete-menu',
+                            'update-menu',
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -77,6 +80,35 @@ class MenuController extends Controller
             return $this->redirect(Yii::$app->request->referrer);
         }
         throw new NotFoundHttpException();
+    }
+
+    public function actionUpdateMenu($id) {
+        $request = Yii::$app->request;
+        $model = $this->findModelMenu($id);
+        if ($request->isPjax && $request->isPost && $model->load($request->post())) {
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
+            $model->update();
+        }
+
+        return $this->renderAjax('partial/modal', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionDeleteMenu($id) {
+        if ($id && Menu::deleteAll(['id' => $id])) {
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        return false;
+    }
+
+    public function findModelMenu($id) {
+        if ($model = Menu::findOne((int)$id)) {
+            return $model;
+        } else {
+            throw new Exception('Wrong period');
+        }
     }
 
     public function actionDeleteFromCart($id)

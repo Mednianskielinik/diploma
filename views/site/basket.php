@@ -6,6 +6,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
+use app\models\Sales;
 use app\assets\MenuAsset;
 use app\models\Menu;
 use yii\widgets\Pjax;
@@ -21,7 +22,9 @@ if (isset($request)) {
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-xs-12">
-            Итого: <?= $sum ?> BYN <a href="<?= \yii\helpers\Url::to(['site/confirm-order'])?>" class="btn btn-success">Подтвердить заказ</a>
+            Итого: <?= $sum ?> BYN <br>
+            Ваша скидка: <?=Sales::getSale(Yii::$app->user->id, (new \DateTime('now'))->format('Y-m-d H:i:s'))?>%<br>
+            Итого сумма со скидкой:  <?=Sales::getSumWithSale($sum, Yii::$app->user->id, (new \DateTime('now'))->format('Y-m-d H:i:s'))?> <a href="<?= \yii\helpers\Url::to(['site/confirm-order'])?>" class="btn btn-success">Подтвердить заказ</a>
             <hr>
         </div>
     </div>

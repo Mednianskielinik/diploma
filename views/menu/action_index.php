@@ -8,13 +8,12 @@ use yii\widgets\Breadcrumbs;
 use app\assets\MenuAsset;
 use app\models\Menu;
 use yii\widgets\Pjax;
+use rmrevin\yii\fontawesome\FAS;
 
 MenuAsset::register($this);
 
 $this->title = 'Sales Periods';
-if (isset($request)) {
-print_r($request);
-}
+$icon = FAS::icon('edit', ['class' => 'fa-fw', ]);
 ?>
 
 <div class="container-fluid">
@@ -29,8 +28,8 @@ print_r($request);
 </div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-12 col-md-12 col-xs-12">
-            <?= Html::a('Add',
+        <div class="col-lg-12 col-md-12 col-xs-12 center-block">
+            <?= Html::a('Добавить',
                 [
                     'menu/create',
                 ],
@@ -54,7 +53,22 @@ print_r($request);
                                     <?php foreach ($dataProvider->getModels() as $item):?>
                                         <div class="col-md-3 col-sm-6">
                                             <div class="shopping-item">
-                                            <div class="add-to-cart"><a href="<?= \yii\helpers\Url::to(['menu/add-to-cart', 'id' => $item->id])?>"><i class="fas fa-shopping-basket"></i> Добавить в корзину</a></div>
+                                                <?php if(Yii::$app->user->id == 1) :?>
+                                                    <div class="update add-to-cart"><a href="<?= \yii\helpers\Url::to(['menu/delete-menu', 'id' => $item->id])?>">
+                                                            <i class="fas fa-trash"></i> Удалить</a>
+                                                        <?= Html::a( $icon.'Изменить',
+                                                            [
+                                                                'menu/update-menu',
+                                                                'id' => $item->id,
+                                                            ],
+                                                            [
+                                                                'data-pjax' => 0,
+                                                                'class' => 'update',
+                                                            ]
+                                                        ); ?> </div>
+                                                <?php else:?>
+                                                    <div class="add-to-cart"><a href="<?= \yii\helpers\Url::to(['menu/add-to-cart', 'id' => $item->id])?>"><i class="fas fa-shopping-basket"></i> Добавить в корзину</a></div>
+                                                <?php endif;?>
                                             <img class="img-responsive" src="../img/<?=$item->image?>" alt="" />
                                             <div class="product"><h4><?=$item->name?></h4></div>
                                             <div class="item-price"><?=$item->cost?> BYN</div>
@@ -62,7 +76,6 @@ print_r($request);
                                             <div class="components"><?=$item->components?></div>
                                            </div>
                                         </div>
-
                                     <?php endforeach;?>
                                 <?php endif; ?>
                             <?php Pjax::end(); ?>

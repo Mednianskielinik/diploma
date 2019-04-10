@@ -42,6 +42,7 @@ AppAsset::register($this);
             ['label' => 'Главная', 'url' => ['/site/index']],
             ['label' => 'Меню', 'url' => ['/menu/index']],
             ['label' => 'Скидочные этапы',  'visible' => Yii::$app->user->id == 1 , 'url' => ['/sales/index']],
+            ['label' => 'Заказы',  'visible' => Yii::$app->user->id == 1 , 'url' => ['/site/orders']],
             ['label' => 'Корзина '.$itemsCount = \Yii::$app->cart->getCount(),  'visible' => !Yii::$app->user->isGuest && \Yii::$app->cart->getCount() > 0 , 'url' => ['/site/basket']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Авторизация', 'url' => ['/user/sign-in']]

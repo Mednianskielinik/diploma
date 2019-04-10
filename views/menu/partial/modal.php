@@ -15,7 +15,7 @@ if ($model->isNewRecord) {
     $class_btn = 'success';
     $button = 'Save';
 } else {
-    $action = 'update';
+    $action = 'update-menu';
     $class_btn = 'primary';
     $button = 'Update';
 }
@@ -27,7 +27,8 @@ Modal::begin([
     'options' => [
         'tabindex' => false
     ]
-]); ?>
+]);
+?>
 
 <?php Pjax::begin([
     'timeout' => 7000,
@@ -37,7 +38,7 @@ Modal::begin([
 ]); ?>
 
 <?php $form = ActiveForm::begin([
-    'id' => 'form_menu',
+    'id' => 'formMenu',
     'action' => [
         'menu/'.$action,
         'id' => $model->id
