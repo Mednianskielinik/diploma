@@ -12,7 +12,7 @@ use rmrevin\yii\fontawesome\FAS;
 
 MenuAsset::register($this);
 
-$this->title = 'Sales Periods';
+$this->title = 'Меню';
 $icon = FAS::icon('edit', ['class' => 'fa-fw', ]);
 ?>
 
@@ -66,7 +66,7 @@ $icon = FAS::icon('edit', ['class' => 'fa-fw', ]);
                                                                 'class' => 'update',
                                                             ]
                                                         ); ?> </div>
-                                                <?php else:?>
+<!--                                                --><?php //else:?>
                                                     <div class="add-to-cart"><a href="<?= \yii\helpers\Url::to(['menu/add-to-cart', 'id' => $item->id])?>"><i class="fas fa-shopping-basket"></i> Добавить в корзину</a></div>
                                                 <?php endif;?>
                                             <img class="img-responsive" src="../img/<?=$item->image?>" alt="" />

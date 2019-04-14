@@ -2,11 +2,14 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
-use yii\helpers\Html;
-use yii\data\ActiveDataProvider;
 
 class Order extends ActiveRecord
 {
+    public $confirm_filter;
+    const CONFIRM_ORDERS = 'is_confirm';
+    const NOT_CONFIRM_ORDERS = 'not_confirm';
+    const ALL_ORDERS = 'all';
+
     public static function tableName()
     {
         return 'order';
@@ -20,6 +23,7 @@ class Order extends ActiveRecord
         return [
             [['user_id', 'date', 'sum_of_order'], 'required'],
             [['user_id','sum_of_order'], 'integer'],
+            [['confirm_filter'], 'safe']
         ];
     }
 
@@ -43,9 +47,19 @@ class Order extends ActiveRecord
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
-    public static function getOrders() {
+    public function getOrders() {
+        if ($this->confirm_filter == 'is_confirm') {
+            $condition = ['=', 'confirm', true];
+        } elseif ($this->confirm_filter == 'not_confirm') {
+            $condition = ['=', 'confirm', false];
+        } else {
+            $condition = ['OR',
+                ['=', 'confirm', true],
+                ['=', 'confirm', false]
+            ];
+        }
         $orders = self::find()
-            ->where(['=', 'confirm', false])
+            ->where($condition)
             ->joinWith('user')
             ->joinWith('orderItem')
             ->orderBy('order.date')

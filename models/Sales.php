@@ -84,7 +84,7 @@ class Sales extends ActiveRecord
             ->orderBy(['sale' => SORT_ASC])
             ->asArray()
             ->all();
-        return end($periods)['sale'];
+        return isset(end($periods)['sale']) ? end($periods)['sale'] : '0';
     }
 
     public static function getSumWithSale($sum, $userId, $date)

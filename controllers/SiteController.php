@@ -25,7 +25,7 @@ class SiteController extends Controller
                 'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout', 'basket', 'confirm-order', 'order'],
+                        'actions' => ['logout', 'basket', 'confirm-order', 'order', 'confirming-order'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -148,7 +148,7 @@ class SiteController extends Controller
         }
         $order = new Order();
         $order->user_id = Yii::$app->user->id;
-        $order->date = (new \DateTime('now'))->format('Y-m-d H:i:s');
+        $order->date = (new \DateTime(''))->format('Y-m-d H:i:s');
         $order->sum_of_order = $sum;
         $order->save();
         foreach (\Yii::$app->cart->getPositions() as $item) {
@@ -162,11 +162,30 @@ class SiteController extends Controller
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    public function actionConfirmingOrder($id)
+    {
+        if($model = Order::findOne((int)$id)) {
+            if($model->confirm == true) {
+                $model->confirm = false;
+            } else {
+                $model->confirm = true;
+            }
+            $model->update();
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
     public function actionOrders()
     {
-        $orders = Order::getOrders();
+        $request = Yii::$app->request;
+        $model = new Order;
+        if ($request->isPost) {
+            $model->load($request->post());
+        }
+        $orders = $model->getOrders();
         return $this->render('orders', [
             'orders' => $orders,
+            'model' => $model,
         ]);
     }
 }

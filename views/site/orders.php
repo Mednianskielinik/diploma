@@ -1,9 +1,38 @@
 <?php
 use app\assets\MenuAsset;
 use \app\models\Sales;
+use yii\widgets\ActiveForm;
+use kartik\select2\Select2;
+use app\models\Order;
+use rmrevin\yii\fontawesome\FAS;
+use yii\helpers\Html;
 
 MenuAsset::register($this);
+
 /* @var $orders array */
+/* @var $model Order */
+
+$form = ActiveForm::begin([
+    'method'  => 'post',
+    'action'  => ['/site/orders'],
+    'options' => [
+        'data-pjax' => 1,
+    ]
+]); ?>
+    <?= $form->field($model, 'confirm_filter')->widget(Select2::class, [
+        'hideSearch' => true,
+        'data' => [Order::ALL_ORDERS => 'Все заказы',Order::CONFIRM_ORDERS => 'Доставленные заказы', Order::NOT_CONFIRM_ORDERS => 'Заказы на обработке'],
+        'options' => ['placeholder' => 'Все заказы'],
+        'pluginOptions' => [
+            'allowClear' => false
+        ],
+    ])->label('Статус заказа') ?>
+    <?= Html::submitButton('Показать заказы',
+    [
+        'class' => 'btn btn-success'
+    ]) ?>
+<?php
+ActiveForm::end();
 ?>
 <table class="order-table">
     <tr>
@@ -17,7 +46,10 @@ MenuAsset::register($this);
     </tr>
     <?php foreach ($orders as $order): ?>
          <tr>
-             <td rowspan="<?=count($order['orderItem'])?>"><?=$order['confirm']?></td>
+             <td rowspan="<?=count($order['orderItem'])?>"><a href="<?= \yii\helpers\Url::to(['site/confirming-order', 'id' => $order['id']])?>">
+                     <?=$order['confirm'] == 1
+                         ? FAS::icon('times', ['class' => 'fa-fw']).'Отметить как не доставленный'
+                         : FAS::icon('check', ['class' => 'fa-fw']).'Отметить как доставленный'?></a></td>
              <td rowspan="<?=count($order['orderItem'])?>"class="employee"><?= $order['user']['address'] ?></td>
              <td rowspan="<?=count($order['orderItem'])?>"><?= (new \DateTime($order['date']))->format('Y-m-d') ?></td>
              <td rowspan="<?=count($order['orderItem'])?>"class="employee"><?= $order['sum_of_order'] ?></td>

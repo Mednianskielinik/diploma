@@ -27,14 +27,14 @@ class Menu extends ActiveRecord implements CartPositionInterface
         return[
             [['name', 'components', 'cost', 'weight', 'image'], 'required'],
             [['name', 'components', 'cost', 'weight', 'image'], 'string'],
-            [['name', 'components', 'cost', 'weight', 'imageFile'], 'safe'],
+            [['name', 'components', 'cost', 'weight', 'imageFile', 'is_deleted'], 'safe'],
             [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg, gif']
         ];
     }
 
     public function search()
     {
-        $query = self::find();
+        $query = self::find()->where(['=', 'is_deleted', false]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -97,10 +97,10 @@ class MenuController extends Controller
     }
 
     public function actionDeleteMenu($id) {
-        if ($id && Menu::deleteAll(['id' => $id])) {
-            return $this->redirect(Yii::$app->request->referrer);
-        }
-        return false;
+        $model = $this->findModelMenu($id);
+        $model->is_deleted = true;
+        $model->update(false);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function findModelMenu($id) {

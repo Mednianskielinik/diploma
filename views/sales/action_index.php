@@ -9,14 +9,13 @@ use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 use app\assets\SalesAsset;
 use app\models\Sales;
-use kartik\select2\Select2;
 use yii\grid\ActionColumn;
 use rmrevin\yii\fontawesome\FAS;
 use yii\widgets\Pjax;
 
 SalesAsset::register($this);
 
-$this->title = 'Sales Periods';
+$this->title = 'Скидочные этапы';
 if (isset($request)) {
 print_r($request);
 }
@@ -34,7 +33,7 @@ print_r($request);
 </div>
 <div class="container-fluid">
     <div class="panel panel-default">
-        <div class="panel-heading">Sales Periods</div>
+        <div class="panel-heading">Скидочные этапы</div>
         <div class="panel-body">
             <div class="container-fluid margin-top-20">
                 <div class="row">
