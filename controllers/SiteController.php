@@ -148,7 +148,7 @@ class SiteController extends Controller
         }
         $order = new Order();
         $order->user_id = Yii::$app->user->id;
-        $order->date = (new \DateTime(''))->format('Y-m-d H:i:s');
+        $order->date = (new \DateTime('now'))->format('Y-m-d H:i:s');
         $order->sum_of_order = $sum;
         $order->save();
         foreach (\Yii::$app->cart->getPositions() as $item) {

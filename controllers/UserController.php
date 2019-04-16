@@ -29,6 +29,7 @@ class UserController extends Controller
                             'logout',
                             'sign-in',
                             'login',
+                            'users'
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -119,6 +120,17 @@ class UserController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    public function actionUsers()
+    {
+        $searchModel = new User();
+        $dataProvider = $searchModel->search(Yii::$app-> request-> queryParams);
+
+        return $this->render('action_users', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
 }

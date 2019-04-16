@@ -28,11 +28,12 @@
 
         this.$gridPjax.on('click', function (event) {
             var target = $(event.target);
-            if (target.hasClass('update') || target.hasClass('fa-pencil')) {
+            if (target.hasClass('update') || target.hasClass('fa-edit')) {
+                var link = target.hasClass('update') ? target : target.parent('a');
                 $.pjax.reload({
                     push: false,
                     replace: false,
-                    url: target.attr('href'),
+                    url: link.attr('href'),
                     container: '#formMenu',
                     timeout: 7000
                 });

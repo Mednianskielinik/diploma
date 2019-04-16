@@ -30,11 +30,11 @@
             var target = $(event.target);
             console.log(event);
             if (target.hasClass('update') || target.hasClass('fa-pencil')) {
-
+                var link = target.hasClass('update') ? target : target.parent('a');
                 $.pjax.reload({
                     push: false,
                     replace: false,
-                    url: target.attr('href'),
+                    url: link,
                     container: '#formSales',
                     timeout: 7000
                 });

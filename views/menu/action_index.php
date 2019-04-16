@@ -55,8 +55,8 @@ $icon = FAS::icon('edit', ['class' => 'fa-fw', ]);
                                             <div class="shopping-item">
                                                 <?php if(Yii::$app->user->id == 1) :?>
                                                     <div class="update add-to-cart"><a href="<?= \yii\helpers\Url::to(['menu/delete-menu', 'id' => $item->id])?>">
-                                                            <i class="fas fa-trash"></i> Удалить</a>
-                                                        <?= Html::a( $icon.'Изменить',
+                                                            <i class="fas fa-trash"></i></a>
+                                                        <?= Html::a( $icon,
                                                             [
                                                                 'menu/update-menu',
                                                                 'id' => $item->id,

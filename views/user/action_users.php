@@ -1,20 +1,19 @@
 <?php
 /* @var $this yii\web\View */
-/* @var $modelSettings app\models\BlackListSettings */
 /* @var $dataProvider \yii\data\ActiveDataProvider */
-/* @var $model app\models\BlackList */
+/* @var $searchModel app\models\User */
 
 use yii\grid\GridView;
 use yii\grid\SerialColumn;
+use app\models\BlackList;
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 use app\assets\SalesAsset;
-use app\models\BlackList;
-use yii\helpers\Url;
 use app\models\Sales;
 use yii\grid\ActionColumn;
 use rmrevin\yii\fontawesome\FAS;
+use yii\helpers\Url;
 use yii\widgets\Pjax;
 
 SalesAsset::register($this);
@@ -33,54 +32,17 @@ $this->title = 'Черный список';
     </div>
 </div>
 <div class="container-fluid">
-    <div class="panel panel-default">
-        <div class="panel-heading">Настройки</div>
-        <div class="panel-body">
-            <div class="container-fluid margin-top-20">
-                <div class="row">
-                    <?php $form = ActiveForm::begin([
-                        'action' => [
-                            'black-list/update-settings'
-                        ],
-                        'method' => 'post',
-                        'enableClientValidation' => true,
-                        'options' => [
-                            'data-pjax' => 1
-                        ]
-                    ]);
-                    ?>
-
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-xs-12">
-                                <?= $form->field($modelSettings, 'count_of_day')->textInput(['value'=> $modelSettings->countOfDay]); ?>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-xs-12">
-                                <?= $form->field($modelSettings, 'fine')->textInput(['value'=> $modelSettings->newFine]); ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <?= Html::submitInput('Изменить', [
-                            'class' => 'btn btn-warning',
-                        ]) ?>
-                    </div>
-
-                    <?php ActiveForm::end(); ?>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="container-fluid margin-top-5">
         <div class="row">
             <div class="col-xs-12 col-md-12 col-lg-12">
                 <?php Pjax::begin(['timeout' => 7000,
                     'id' => 'blackListGridPjax',
                 ]); ?>
-                <?= GridView::widget(['dataProvider' => $dataProvider,
+                <?= GridView::widget([
+                    'dataProvider' => $dataProvider,
+                    'filterModel' => $searchModel,
                     'tableOptions' => [
-                            'class' => 'table table-striped table-bordered table-middle-vertical table-long-content grid-view-header'
+                        'class' => 'table table-striped table-bordered table-middle-vertical table-long-content grid-view-header'
                     ],
                     'columns' => [
                         ['headerOptions' => [
@@ -93,22 +55,25 @@ $this->title = 'Черный список';
                             'class' => SerialColumn::class,
                         ],
                         [
-                            'enableSorting' => false,
-                            'attribute' => 'user_id',
+                            'attribute' => 'login',
                         ],
                         [
-                            'enableSorting' => false,
-                            'headerOptions' => ['class' => 'text-center'],
-                            'contentOptions' => ['class' => 'text-center'],
-                            'attribute' => 'date_of_block',
-                        ],
-                        [
-                            'label' => 'Осталось дней в черном списке',
+                            'label' => 'Имя',
                             'headerOptions' => ['class' => 'text-center'],
                             'contentOptions' => ['class' => 'text-center'],
                             'value' => function ($model) {
-                                return BlackList::userCountDayInBlackList($model->user_id);
+                                return $model->user_name.' '.$model->user_second_name;
                             }
+                        ],
+                        [
+                            'headerOptions' => ['class' => 'text-center'],
+                            'contentOptions' => ['class' => 'text-center'],
+                            'attribute' => 'address',
+                        ],
+                        [
+                            'headerOptions' => ['class' => 'text-center'],
+                            'contentOptions' => ['class' => 'text-center'],
+                            'attribute' => 'phone_number',
                         ],
                         [
                             'class'          => \yii\grid\ActionColumn::class,
@@ -122,14 +87,23 @@ $this->title = 'Черный список';
                             'header'         => 'Действия',
                             'buttons'        => [
                                 'delete' => function ($url, $model) {
-                                    return Html::a(FAS::icon('address-book', ['class' => 'fa-fw',]) . ' Убрать из черного списка', Url::to(['black-list/remove', 'id' => $model->id]),
-                                        [
-                                            'data-pjax' => 0,
-                                        ]
-                                    );
+                                   if(BlackList::isUserInBlackList($model->id)) {
+                                       return Html::a(FAS::icon('address-book', ['class' => 'fa-fw',]) . ' Обновить срок нахождения в чером списке', Url::to(['black-list/add', 'id' => $model->id]),
+                                           [
+                                               'data-pjax' => 0,
+                                           ]
+                                       );
+                                   } else {
+                                       return Html::a(FAS::icon('address-book', ['class' => 'fa-fw',]) . ' Добавить в черный список', Url::to(['black-list/add', 'id' => $model->id]),
+                                           [
+                                               'data-pjax' => 0,
+                                           ]
+                                       );
+                                   }
                                 }
                             ]
                         ]
+
                     ],
                 ]); ?>
                 <?php Pjax::end(); ?>

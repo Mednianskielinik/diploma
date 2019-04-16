@@ -23,7 +23,9 @@ class BlackListController extends Controller
                     [
                         'actions' => [
                             'index',
-                            'update-settings'
+                            'update-settings',
+                            'add',
+                            'remove',
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -60,6 +62,22 @@ class BlackListController extends Controller
             $model->update();
         }
 
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionAdd($id)
+    {
+        $blackList = new BlackList();
+        $blackList->user_id = $id;
+        $blackList->date_of_block = (new \DateTime('now'))->format('Y-m-d H:i:s');
+        $blackList->save();
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionRemove($id)
+    {
+        $model = BlackList::findOne((int)$id);
+        $model->delete();
         return $this->redirect(Yii::$app->request->referrer);
     }
 }

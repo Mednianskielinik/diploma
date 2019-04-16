@@ -43,4 +43,23 @@ class BlackList extends ActiveRecord
         ]);
         return $dataProvider;
     }
+
+    public static function isUserInBlackList($userId)
+    {
+        return self::find()->where(['=', 'user_id', $userId])->exists();
+    }
+
+    public static function userCountDayInBlackList($userId)
+    {
+        $settings = BlackListSettings::find()->where(['=', 'id', '1'])->one();
+        $blockDays = $settings->count_of_day;
+        if (self::find()->where(['=', 'user_id', $userId])->exists())
+        {
+            $dateOfBlock = new \DateTime((self::find()->where(['=', 'user_id', $userId]))->one()->date_of_block);
+            $today = new \DateTime('now');
+            return $blockDays - $today->diff($dateOfBlock)->days;
+        } else {
+            return 0;
+        }
+    }
 }
