@@ -1,0 +1,24 @@
+.report-table {
+    border: 1px solid #ffffff;
+    margin-top: 5%;
+    width: 99%;
+}
+
+.report-table th {
+    border: 1px solid #373737;
+    background-color: #d8d8d8;
+    text-align: center;
+    font-weight: bold;
+    padding: 3px;
+}
+
+.report-table td {
+    border: 1px solid #373737;
+    text-align: center;
+    padding: 5px;
+}
+
+.report-table tr:first-child {
+    padding: 5px;
+    text-align: center;
+}

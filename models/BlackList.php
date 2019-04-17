@@ -33,9 +33,16 @@ class BlackList extends ActiveRecord
             'date_of_block' => 'Дата блокировки',
         ];
     }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
     public function search()
     {
         $query = self::find()
+            ->joinWith('user')
             ->orderBy('date_of_block');
 
         $dataProvider = new ActiveDataProvider([

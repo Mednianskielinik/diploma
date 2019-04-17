@@ -5,7 +5,10 @@ use yii\db\ActiveRecord;
 
 class Order extends ActiveRecord
 {
+    public $reportOrderPopularity;
     public $confirm_filter;
+    public $dateStartSearch;
+    public $dateEndSearch;
     const CONFIRM_ORDERS = 'is_confirm';
     const NOT_CONFIRM_ORDERS = 'not_confirm';
     const ALL_ORDERS = 'all';
@@ -23,7 +26,7 @@ class Order extends ActiveRecord
         return [
             [['user_id', 'date', 'sum_of_order'], 'required'],
             [['user_id','sum_of_order'], 'integer'],
-            [['confirm_filter'], 'safe']
+            [['dateStartSearch', 'dateEndSearch', 'confirm_filter'], 'safe']
         ];
     }
 
@@ -67,5 +70,35 @@ class Order extends ActiveRecord
             ->all();
 
         return $orders;
+    }
+
+    public function getOrderPopularity()
+    {
+        $dateStart = (new \DateTime($this->dateStartSearch))->format('Y-m-d H:i:s');
+        $dateEnd = (new \DateTime($this->dateEndSearch))->format('Y-m-d H:i:s');
+        $query = self::find()
+            ->where([ 'AND',
+                ['>=', 'date', $dateStart],
+                ['<=', 'date', $dateEnd]])
+            ->andWhere(['=', 'confirm', true])
+            ->joinWith('orderItem')
+            ->asArray()
+            ->all();
+
+        $this->getItemsCount($query);
+
+        $this->reportOrderPopularity;
+    }
+
+    public function getItemsCount($orders)
+    {
+        foreach ($orders as $order) {
+            foreach ($order['orderItem'] as $item) {
+                $this->reportOrderPopularity[$item['menu']['name']] = isset($this->reportOrderPopularity[$item['menu']['name']])
+                    ? $this->reportOrderPopularity[$item['menu']['name']] + $item['count']
+                    :  $item['count'];
+            }
+        }
+        arsort($this->reportOrderPopularity);
     }
 }

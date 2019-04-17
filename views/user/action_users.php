@@ -88,7 +88,7 @@ $this->title = 'Черный список';
                             'buttons'        => [
                                 'delete' => function ($url, $model) {
                                    if(BlackList::isUserInBlackList($model->id)) {
-                                       return Html::a(FAS::icon('address-book', ['class' => 'fa-fw',]) . ' Обновить срок нахождения в чером списке', Url::to(['black-list/add', 'id' => $model->id]),
+                                       return Html::a(FAS::icon('address-book', ['class' => 'fa-fw',]) . ' Обновить срок нахождения в чером списке', Url::to(['black-list/new-date', 'id' => $model->id]),
                                            [
                                                'data-pjax' => 0,
                                            ]

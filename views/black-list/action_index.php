@@ -93,8 +93,12 @@ $this->title = 'Черный список';
                             'class' => SerialColumn::class,
                         ],
                         [
-                            'enableSorting' => false,
-                            'attribute' => 'user_id',
+                            'label' => 'Пользователь',
+                            'headerOptions' => ['class' => 'text-center'],
+                            'contentOptions' => ['class' => 'text-center'],
+                            'value' => function ($model) {
+                               return $model->user->user_name.' '.$model->user->user_second_name;
+                            }
                         ],
                         [
                             'enableSorting' => false,

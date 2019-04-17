@@ -5,11 +5,7 @@ use app\models\BlackList;
 use app\models\BlackListSettings;
 use yii\web\Controller;
 use yii\filters\AccessControl;
-use app\models\Menu;
 use Yii;
-use yii\web\UploadedFile;
-use yii\web\NotFoundHttpException;
-use yii\db\Exception;
 
 class BlackListController extends Controller
 {
@@ -26,6 +22,7 @@ class BlackListController extends Controller
                             'update-settings',
                             'add',
                             'remove',
+                            'new-date'
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -78,6 +75,14 @@ class BlackListController extends Controller
     {
         $model = BlackList::findOne((int)$id);
         $model->delete();
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionNewDate($id)
+    {
+        $model = BlackList::find()->where(['=', 'user_id', $id])->one();
+        $model->date_of_block = (new \DateTime('now'))->format('Y-m-d H:i:s');
+        $model->update();
         return $this->redirect(Yii::$app->request->referrer);
     }
 }

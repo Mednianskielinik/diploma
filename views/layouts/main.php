@@ -45,6 +45,22 @@ AppAsset::register($this);
             ['label' => 'Заказы',  'visible' => Yii::$app->user->id == 1 , 'url' => ['/site/orders']],
             ['label' => 'Пользователи',  'visible' => Yii::$app->user->id == 1 , 'url' => ['/user/users']],
             ['label' => 'Черный список',  'visible' => Yii::$app->user->id == 1 , 'url' => ['/black-list/index']],
+            ['label' => 'Отчеты',
+                'items' => [
+                    [
+                        'label' => 'Популярность товаров',
+                        'url' => ['/reports/order-popularity'],
+                    ],
+                    [
+                        'label' => 'Working Period',
+                        'url' => ['/work-time/working-period/index']
+                    ],
+                    [
+                        'label' => 'Period Report (Table)',
+                        'url' => ['/work-time/index/period-report-table']
+                    ],
+                ],
+             ],
             ['label' => 'Корзина '.$itemsCount = \Yii::$app->cart->getCount(),  'visible' => !Yii::$app->user->isGuest && \Yii::$app->cart->getCount() > 0 , 'url' => ['/site/basket']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Авторизация', 'url' => ['/user/sign-in']]

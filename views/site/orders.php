@@ -42,7 +42,7 @@ ActiveForm::end();
         <th>Сумма заказа</th>
         <th>Сумма заказа со скидкой</th>
         <th>Блюдо</th>
-        <th>Колличество</th>
+        <th>Количество</th>
     </tr>
     <?php foreach ($orders as $order): ?>
          <tr>
