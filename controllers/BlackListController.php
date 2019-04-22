@@ -42,7 +42,7 @@ class BlackListController extends Controller
         $settings = BlackListSettings::find()->where(['=', 'id', '1'])->one();
         $modelSettings->countOfDay = $settings->count_of_day;
         $modelSettings->newFine = $settings->fine;
-        $dataProvider = $model->search($modelSettings->countOfDay);
+        $dataProvider = $model->search();
         return $this->render('action_index', [
             'model' => $model,
             'modelSettings' => $modelSettings,

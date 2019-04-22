@@ -19,6 +19,7 @@ class ReportsController extends Controller
                     [
                         'actions' => [
                             'order-popularity',
+                            'order-in-month'
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -41,6 +42,20 @@ class ReportsController extends Controller
             : (new \DateTime('first day of this month'))->format('Y-m-d');
         $model->getOrderPopularity();
         return $this->render('action_order_popularity', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionOrderInMonth()
+    {
+        $request = Yii::$app->request;
+        $model = new Order();
+        $model->load($request->post());
+        $model->year = !empty($model->year)
+            ? $model->year
+            : (new \DateTime('now'))->format('Y');
+        $model->getOrderInMonth();
+        return $this->render('action_order_in_month', [
             'model' => $model,
         ]);
     }

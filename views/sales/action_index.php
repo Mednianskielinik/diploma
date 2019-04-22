@@ -97,6 +97,7 @@ print_r($request);
                                         return "<div class='cell-color' style='background-color: " . $model->color . ";'></div>";
                                     },
                                 ],
+                                [ 'attribute' => 'id'],
                                 [
                                     'class' => ActionColumn::class,
                                     'headerOptions' => ['class' => 'text-center'],
@@ -106,7 +107,7 @@ print_r($request);
                                     'buttons' => [
                                         'update' => function ($url, $model) {
                                             $icon = FAS::icon('edit', ['class' => 'fa-fw', ]);
-                                            return Html::a($icon . ' Изменить',
+                                            return Html::a($icon . ' Edit',
                                                 [
                                                     'sales/update-sales',
                                                     'id' => $model->id,

@@ -8,6 +8,8 @@ use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 use app\models\Sales;
 use app\assets\MenuAsset;
+use app\models\BlackList;
+use app\models\BlackListSettings;
 use app\models\Menu;
 use yii\widgets\Pjax;
 
@@ -17,6 +19,8 @@ $this->title = 'Sales Periods';
 if (isset($request)) {
     print_r($request);
 }
+$totalSum = Sales::getSumWithSale($sum, Yii::$app->user->id, (new \DateTime('now'))->format('Y-m-d H:i:s'));
+$fine = BlackListSettings::getFine();
 ?>
 <?php if (!empty(\Yii::$app->cart->getPositions())):?>
 <div class="container-fluid">
@@ -24,7 +28,10 @@ if (isset($request)) {
         <div class="col-lg-12 col-md-12 col-xs-12">
             Сумма заказа: <?= $sum ?> BYN <br>
             Ваша скидка: <?=Sales::getSale(Yii::$app->user->id, (new \DateTime('now'))->format('Y-m-d H:i:s'))?>%<br>
-            Итого:  <?=Sales::getSumWithSale($sum, Yii::$app->user->id, (new \DateTime('now'))->format('Y-m-d H:i:s'))?>
+            <?php if (BlackList::isUserInBlackList(Yii::$app->user->id) && BlackList::userCountDayInBlackList(Yii::$app->user->id) > 0):?>
+            Штраф : <?=$fine?> <br>
+            <?php endif;?>
+            Итого:  <?=$totalSum+$fine?>
             <br><a href="<?= \yii\helpers\Url::to(['site/confirm-order'])?>" class="btn btn-success">Подтвердить заказ</a>
             <hr>
         </div>

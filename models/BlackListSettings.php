@@ -36,4 +36,10 @@ class BlackListSettings extends ActiveRecord
         ];
     }
 
+    public static function getFine()
+    {
+        $setting = self::find()->where(['=', 'id', '1'])->one();
+        return $setting->fine;
+    }
+
 }

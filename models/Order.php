@@ -6,9 +6,16 @@ use yii\db\ActiveRecord;
 class Order extends ActiveRecord
 {
     public $reportOrderPopularity;
+    public $orderInMonth;
     public $confirm_filter;
     public $dateStartSearch;
     public $dateEndSearch;
+    public $year;
+    const MONTH = [
+        'Январь', 'Февраль', 'Март',
+        'Апрель', 'Май', 'Июнь',
+        'Июль', 'Август', 'Сентябрь',
+        'Октябрь', 'Ноябрь', 'Декабрь'];
     const CONFIRM_ORDERS = 'is_confirm';
     const NOT_CONFIRM_ORDERS = 'not_confirm';
     const ALL_ORDERS = 'all';
@@ -26,7 +33,7 @@ class Order extends ActiveRecord
         return [
             [['user_id', 'date', 'sum_of_order'], 'required'],
             [['user_id','sum_of_order'], 'integer'],
-            [['dateStartSearch', 'dateEndSearch', 'confirm_filter'], 'safe']
+            [['dateStartSearch', 'dateEndSearch', 'confirm_filter', 'year'], 'safe']
         ];
     }
 
@@ -86,8 +93,29 @@ class Order extends ActiveRecord
             ->all();
 
         $this->getItemsCount($query);
+    }
 
-        $this->reportOrderPopularity;
+    public function getOrderInMonth()
+    {
+        $dateStart = (new \DateTime('01.01.'.$this->year))->format('Y-m-d H:i:s');
+        $dateEnd = (new \DateTime('31.12.'.$this->year))->format('Y-m-d H:i:s');
+        $query = self::find()
+            ->where([ 'AND',
+                ['>=', 'date', $dateStart],
+                ['<=', 'date', $dateEnd]])
+            ->andWhere(['=', 'confirm', true])
+            ->asArray()
+            ->all();
+
+        $this->getMonthWithOrder($query);
+    }
+
+    public function  getMonthWithOrder($orders) {
+        $this->orderInMonth = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        foreach ($orders as $order) {
+            $month = (new \DateTime($order['date']))->format('m');
+            $this->orderInMonth[(int)$month-1]++;
+        }
     }
 
     public function getItemsCount($orders)
@@ -99,6 +127,32 @@ class Order extends ActiveRecord
                     :  $item['count'];
             }
         }
-        arsort($this->reportOrderPopularity);
+        if (isset($this->reportOrderPopularity)) {
+            arsort($this->reportOrderPopularity);
+        }
+    }
+
+    public function getYears()
+    {
+        $orders = self::find()
+            ->where(['=', 'confirm', true])
+            ->orderBy('order.date')
+            ->asArray()
+            ->all();
+        foreach ($orders as $order) {
+            $year = (new \DateTime($order['date']))->format('Y');;
+            $years[$year] = $year;
+        }
+        return array_unique($years);
+    }
+
+    public static function getCountNotConfirmOrder()
+    {
+        $orders = self::find()
+            ->where(['=', 'confirm', false])
+            ->asArray()
+            ->all();
+
+        return count($orders) > 0 ? "<span class='badge indicate-vacation text-center'   style='background-color: #ff503a'  data-toggle='tooltip' title='Новые заказы' data-placement='bottom'>" .count($orders).'</span>' : null;
     }
 }

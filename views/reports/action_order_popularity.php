@@ -67,27 +67,7 @@ ReportsAsset::register($this);
 </div>
 </div>
 <?php ActiveForm::end(); ?>
-<?php //if (!empty($model->reportOrderPopularity)): ?>
-<!--    <div class="row">-->
-<!--        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">-->
-<!--            --><?//= Html::a('XLS', ['/missed-days/sick-days/excel-sick-days-statistics'],
-//                [
-//                    'class' => 'btn btn-success btn_width_95',
-//                    'data' => [
-//                        'method' => 'post',
-//                        'params' => [
-//                            'SickDays[location]' => [$model->location],
-//                            'SickDays[departments]' => [$model->departments],
-//                            'SickDays[employees]' => [$model->employees],
-//                            'SickDays[year]' => $model->year,
-//                            'SickDays[groupByDepartment]' => $model->groupByDepartment,
-//                        ],
-//                    ],
-//                ]); ?>
-<!--        </div>-->
-<!--    </div>-->
-<?php //endif;?>
-
+<?php if(!empty($model->reportOrderPopularity)): ?>
 <table class="report-table">
     <tr>
         <th>Блюдо</th>
@@ -100,3 +80,6 @@ ReportsAsset::register($this);
     </tr>
     <?php endforeach;?>
 </table>
+<?php else:?>
+    <div class="alert alert-warning text-center" role="alert"><strong>During this period, no data!</strong></div>
+<?php endif;?>

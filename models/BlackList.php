@@ -41,6 +41,12 @@ class BlackList extends ActiveRecord
 
     public function search()
     {
+        $blackListItems = self::find()->all();
+        foreach ($blackListItems as $blackListItem) {
+            if (!(self::userCountDayInBlackList($blackListItem->user_id) > 0)) {
+                $blackListItem->delete();
+            }
+        }
         $query = self::find()
             ->joinWith('user')
             ->orderBy('date_of_block');
