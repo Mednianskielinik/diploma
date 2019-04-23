@@ -18,6 +18,7 @@ class m190404_193640_tabel_menu extends Migration
         }
         $this->createTable('{{%menu}}', [
             'id' => $this->primaryKey(),
+            'category' => $this->integer()->notNull(),
             'name' => $this->string()->notNull()->unique(),
             'components' => $this->text()->notNull(),
             'cost' => $this->string()->notNull(),

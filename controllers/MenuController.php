@@ -42,9 +42,9 @@ class MenuController extends Controller
     /**
      * @return string
      */
-    public function actionIndex() {
+    public function actionIndex($category = null) {
         $model = new Menu();
-        $dataProvider = $model->search();
+        $dataProvider = $model->search(isset($category) ? $category : '');
 
         return $this->render('action_index', [
             'model' => $model,

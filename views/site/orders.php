@@ -53,7 +53,7 @@ ActiveForm::end();
              <td rowspan="<?=count($order['orderItem'])?>"class="employee"><?= $order['user']['address'] ?></td>
              <td rowspan="<?=count($order['orderItem'])?>"><?= (new \DateTime($order['date']))->format('Y-m-d') ?></td>
              <td rowspan="<?=count($order['orderItem'])?>"class="employee"><?= $order['sum_of_order'] ?></td>
-             <td rowspan="<?=count($order['orderItem'])?>"class="employee"><?= Sales::getSumWithSale($order['sum_of_order'], $order['user_id'], $order['date']) ?></td>
+             <td rowspan="<?=count($order['orderItem'])?>"class="employee" style="background:<?=Sales::getSale($order['user_id'], $order['date'], true)?> "><?= Sales::getSumWithSale($order['sum_of_order'], $order['user_id'], $order['date']) ?></td>
         <?php foreach ($order['orderItem'] as $items): ?>
                 <td><?= $items['menu']['name'] ?></td>
                 <td><?= $items['count'] ?></td>

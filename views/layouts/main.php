@@ -74,16 +74,7 @@ data-toggle='tooltip' title='You have few new vacation!' style='background-color
                 'visible' => !Yii::$app->user->isGuest && \Yii::$app->cart->getCount() > 0 , 'url' => ['/site/basket']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Авторизация', 'url' => ['/user/sign-in']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/user/logout'], 'post')
-                . Html::submitButton(
-                    'Выйти (' . Yii::$app->user->identity->login . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
+            ) : (['label' => 'Выйти (' . Yii::$app->user->identity->login . ')', 'url' => ['/user/logout']])
         ],
     ]);
     NavBar::end();

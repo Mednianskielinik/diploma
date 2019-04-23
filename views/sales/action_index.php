@@ -97,7 +97,6 @@ print_r($request);
                                         return "<div class='cell-color' style='background-color: " . $model->color . ";'></div>";
                                     },
                                 ],
-                                [ 'attribute' => 'id'],
                                 [
                                     'class' => ActionColumn::class,
                                     'headerOptions' => ['class' => 'text-center'],

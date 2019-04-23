@@ -71,7 +71,7 @@ class Sales extends ActiveRecord
             : '';
     }
 
-    public static function getSale($userId, $date)
+    public static function getSale($userId, $date, $color = false)
     {
         $purchases = Order::find()
             ->where(['=', 'user_id', $userId])
@@ -84,6 +84,10 @@ class Sales extends ActiveRecord
             ->orderBy(['sale' => SORT_ASC])
             ->asArray()
             ->all();
+
+        if ($color == true) {
+            return isset(end($periods)['color']) ? end($periods)['color'] : '0';
+        }
         return isset(end($periods)['sale']) ? end($periods)['sale'] : '0';
     }
 

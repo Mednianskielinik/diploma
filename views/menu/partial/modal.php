@@ -7,6 +7,7 @@ use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
+use kartik\select2\Select2;
 use app\models\Sales;
 use kartik\color\ColorInput;
 
@@ -55,6 +56,18 @@ Modal::begin([
         <div class="row">
             <div class="col-lg-12 col-md-12 col-xs-12">
                 <?= $form->field($model, 'name')->textInput(); ?>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <?= $form->field($model, 'category')->widget(Select2::class, [
+                    'data' => $model->categories,
+                    'size' => Select2::MEDIUM,
+                    'options' => [
+                        'multiple' => false,
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ]
+                ])->label('Категория') ?>
             </div>
             <div class="col-lg-12 col-md-12 col-xs-12">
                 <?= $form->field($model, 'components')->textInput(); ?>

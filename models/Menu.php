@@ -17,6 +17,7 @@ class Menu extends ActiveRecord implements CartPositionInterface
     public $price;
     public $color;
     public $imageFile;
+    public $categories = [ 1 => 'Десерты', 2 => 'Горячие блюда', 3 => 'Супы', 4 => 'Закуски'];
 
     public static function tableName()
     {
@@ -27,15 +28,17 @@ class Menu extends ActiveRecord implements CartPositionInterface
         return[
             [['name', 'components', 'cost', 'weight', 'image'], 'required'],
             [['name', 'components', 'cost', 'weight', 'image'], 'string'],
-            [['name', 'components', 'cost', 'weight', 'imageFile', 'is_deleted'], 'safe'],
+            [['name', 'category', 'components', 'cost', 'weight', 'imageFile', 'is_deleted'], 'safe'],
             [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg, gif']
         ];
     }
 
-    public function search()
+    public function search($category = null)
     {
         $query = self::find()->where(['=', 'is_deleted', false]);
-
+        if (isset($category) && !empty($category)) {
+            $query->andWhere(['=', 'category', $category]);
+        }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

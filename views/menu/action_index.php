@@ -11,6 +11,7 @@ use yii\widgets\Pjax;
 use rmrevin\yii\fontawesome\FAS;
 
 MenuAsset::register($this);
+\macgyer\yii2materializecss\assets\MaterializeAsset::register($this);
 
 $this->title = 'Меню';
 $icon = FAS::icon('edit', ['class' => 'fa-fw', ]);
@@ -23,23 +24,50 @@ $icon = FAS::icon('edit', ['class' => 'fa-fw', ]);
                 'links' => [['label' => $this->title],
                 ],
             ]) ?>
+            <div class="col-lg-2 col-md-2 col-xs-2 center-block">
+                <?= Html::a('<i class="material-icons">add</i>',
+                    [
+                        'menu/create',
+                    ],
+                    [
+                        'id' => 'addMenu',
+                        'class' => 'btn-floating btn-large waves-effect waves-light red',
+                    ]
+                ); ?>
+            </div>
         </div>
     </div>
 </div>
+
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-12 col-md-12 col-xs-12 center-block">
-            <?= Html::a('Добавить',
+        <div class="col-lg-2 col-md-2 col-xs-2 center-block">
+            <?= Html::a('Все',
                 [
-                    'menu/create',
+                    'menu/index',
                 ],
                 [
-                    'id' => 'addMenu',
                     'class' => 'btn btn-warning btn_width_95',
                 ]
             ); ?>
         </div>
+    <?php foreach($model->categories as $key => $category) :?>
+        <div class="col-lg-2 col-md-2 col-xs-2 center-block">
+            <?= Html::a($category,
+                [
+                    'menu/index',
+                    'category' => $key,
+                ],
+                [
+                    'class' => 'btn btn-warning btn_width_95',
+                ]
+            ); ?>
+        </div>
+    <?php endforeach;?>
     </div>
+</div>
+
+<div class="container-fluid">
     <div class="row">
         <div class="inner-page padd">
             <div class="shopping">
