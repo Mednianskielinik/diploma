@@ -1,10 +1,10 @@
 <?php
 
-use kartik\date\DatePicker;
+use macgyer\yii2materializecss\widgets\form\DatePicker;
 use yii\widgets\ActiveForm;
-use yii\widgets\Breadcrumbs;
 use yii\helpers\Html;
 use app\assets\ReportsAsset;
+
 /* @var $model app\models\Order */
 $this->title = 'Популярность товаров';
 
@@ -22,64 +22,53 @@ $form = ActiveForm::begin([
 ReportsAsset::register($this);
 ?>
 
-<div class="container-fluid">
+<div class="container">
     <div class="row">
-        <div class="col-lg-12 col-md-12 col-xs-12">
-            <?= Breadcrumbs::widget(['homeLink' => ['label' => 'Home', 'url' => '/'],
-                'links' => [['label' => $this->title],
+        <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 margin-bottom-10">
+            <?= DatePicker::widget(['model' => $model,
+                'attribute' => 'dateStartSearch',
+                'options' => ['readonly' => false,
+                    'placeholder' => 'Начало периода',
+                    'data-pjax' => 0,
                 ],
+                'clientOptions' => [
+                    'format' => 'yyyy-mm-dd'
+                ]
+            ]); ?>
+        </div>
+        <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 margin-bottom-10">
+            <?= DatePicker::widget(['model' => $model,
+                'attribute' => 'dateEndSearch',
+                'options' => ['readonly' => false,
+                    'placeholder' => 'Конец периода',
+                    'data-pjax' => 0,
+                ],
+                'clientOptions' => [
+                    'format' => 'yyyy-mm-dd'
+                ]
+            ]); ?>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 margin-bottom-10">
+            <?= Html::submitButton('Построить отчет', ['class' => 'btn btn-danger btn_width_95 loading_button',
+                'data-loading-text' => "<i class='fa fa-spinner fa-spin '></i> loading..."
             ]) ?>
         </div>
     </div>
+    <?php ActiveForm::end(); ?>
+    <?php if (!empty($model->reportOrderPopularity)): ?>
+        <table class="report-table">
+            <tr>
+                <th>Блюдо</th>
+                <th>Количество заказов за период</th>
+            </tr>
+            <?php foreach ($model->reportOrderPopularity as $key => $count): ?>
+                <tr>
+                    <td><?= $key ?></td>
+                    <td><?= $count ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php else: ?>
+        <div class="alert alert-warning text-center" role="alert"><strong>During this period, no data!</strong></div>
+    <?php endif; ?>
 </div>
-<div class="container">
-<div class="row">
-    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 margin-bottom-10">
-        <?= DatePicker::widget(['model' => $model,
-            'attribute' => 'dateStartSearch',
-            'attribute2' => 'dateEndSearch',
-            'form' => $form,
-            'type' => DatePicker::TYPE_RANGE,
-            'removeButton' => ['icon' => 'trash',
-            ],
-            'options' => ['readonly' => false,
-                'placeholder' => 'Start date',
-                'data-pjax' => 0,
-            ],
-            'options2' => ['readonly' => false,
-                'placeholder' => 'End date',
-                'data-pjax' => 0,
-            ],
-            'pluginOptions' => ['todayHighlight' => true,
-                'todayBtn' => true,
-                'calendarWeeks' => true,
-                'weekStart' => 1,
-                'autoclose' => true,
-                'format' => 'yyyy-mm-dd'
-            ]
-        ]); ?>
-    </div>
-    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 margin-bottom-10">
-    <?= Html::submitButton('Generate', ['class' => 'btn btn-danger btn_width_95 loading_button',
-        'data-loading-text' => "<i class='fa fa-spinner fa-spin '></i> loading..."
-    ]) ?>
-    </div>
-</div>
-</div>
-<?php ActiveForm::end(); ?>
-<?php if(!empty($model->reportOrderPopularity)): ?>
-<table class="report-table">
-    <tr>
-        <th>Блюдо</th>
-        <th>Количество заказов за период</th>
-    </tr>
-    <?php foreach ($model->reportOrderPopularity as $key => $count): ?>
-    <tr>
-        <td><?=$key?></td>
-        <td><?=$count?></td>
-    </tr>
-    <?php endforeach;?>
-</table>
-<?php else:?>
-    <div class="alert alert-warning text-center" role="alert"><strong>During this period, no data!</strong></div>
-<?php endif;?>

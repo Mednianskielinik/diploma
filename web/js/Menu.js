@@ -27,8 +27,10 @@
         });
 
         this.$gridPjax.on('click', function (event) {
+            console.log(event);
             var target = $(event.target);
             if (target.hasClass('update') || target.hasClass('fa-edit')) {
+                console.log('sef');
                 var link = target.hasClass('update') ? target : target.parent('a');
                 $.pjax.reload({
                     push: false,

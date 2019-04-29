@@ -73,18 +73,16 @@ class UserController extends Controller
 
     public function actionSignIn()
     {
-        $model = new LoginForm();
-        $modelUser = new User();
+        $model = new User();
 
-        if ($modelUser->load(Yii::$app->request->post()) && $modelUser->validate()) {
-            $modelUser->setPassword($modelUser->password);
-            $modelUser->generateAuthKey();
-            $modelUser->save();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->setPassword($model->password);
+            $model->generateAuthKey();
+            $model->save();
         }
 
         return $this->render('sign_in', [
             'model' => $model,
-            'modelUser' => $modelUser,
         ]);
     }
 
@@ -99,14 +97,12 @@ class UserController extends Controller
             return $this->goHome();
         }
         $model = new LoginForm();
-        $modelUser = new User();
         if ($model->load(Yii::$app->request->post()) && $model->logIn()) {
             return $this->goBack();
         }
         $model->password = '';
-        return $this->render('sign_in', [
+        return $this->render('login_form', [
             'model' => $model,
-            'modelUser' => $modelUser,
         ]);
     }
 

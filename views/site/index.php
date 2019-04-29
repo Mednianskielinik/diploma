@@ -1,71 +1,78 @@
 <?php
-use yii\bootstrap\Carousel;
+
+use macgyer\yii2materializecss\widgets\media\Carousel;
 use app\assets\MenuAsset;
+use yii\helpers\Html;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 
 MenuAsset::register($this);
 $this->title = 'My Yii Application';
 ?>
-<div class="main-container" >
-<?= Carousel::widget([
-    'items' => [
-        [
-            'content' => '<img src="../img/slider2.png"/>',
-            'caption' =>'',
-            'options' => []
-        ],
-        [
-            'content' => '<img src="../img/slider1.png"/>',
-            'caption' => '',
-            'options' => []
-        ],
-        [
-            'content' => '<img src="../img/slider3.png"/>',
-            'caption' => '',
-            'options' => []
-        ]
-    ],
-    'options' => ['class' => 'carousel slide', 'data-interval' => '12000'],
-    'controls' => [
-            '<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>',
-        '<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>'
-    ]
-]);
-?>
-<div class="logo">
-    <img src="../img/logo.png">
-</div>
-<div class="dishes">
-    <div class="row">
-        <div class="inner-page padd">
-            <div class="shopping">
-                <div class="container">
-                    <div class="shopping-content">
-                        <div class="row">
-                            <?php Pjax::begin(['timeout' => 7000,
-                                'id' => 'menuGridPjax',
-                            ]); ?>
-                            <?php if (!empty($dataProvider)):?>
-                                <?php foreach ($dataProvider->getModels() as $item):?>
-                                    <div class="col-md-3 col-sm-6">
-                                        <div class="shopping-item">
-                                            <img class="img-responsive" src="../img/<?=$item->image?>" alt="" />
-                                            <div class="product"><h4><?=$item->name?></h4></div>
-                                            <div class="item-price"><?=$item->cost?> BYN</div>
-                                            <div class="item-weight"><?=$item->weight?> грамм</div>
-                                            <div class="components"><?=$item->components?></div>
-                                        </div>
-                                    </div>
-                                <?php endforeach;?>
+
+<div class="main-container">
+    <img src="../img/slider2.png" width="100%">
+    <div class="logo">
+        <img src="../img/logo.png">
+    </div>
+    <div class="dishes">
+        <div class="dish-type">
+            <div class="col-lg-2 col-md-2 col-xs-2 center-block">
+                <?= Html::a('Все',
+                    [
+                        'menu/index',
+                    ],
+                    [
+                        'class' => 'dish-type-button btn btn-warning btn_width_95',
+                    ]
+                ); ?>
+            </div>
+            <?php foreach ($model->categories as $key => $category) : ?>
+                <div class="col-lg-2 col-md-2 col-xs-2 center-block">
+                    <?= Html::a($category,
+                        [
+                            'menu/index',
+                            'category' => $key,
+                        ],
+                        [
+                            'class' => 'dish-type-button btn btn-warning btn_width_95',
+                        ]
+                    ); ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <div class="wrapper">
+            <?php if (!empty($dataProvider)): ?>
+                <?php foreach ($dataProvider->getModels() as $item): ?>
+                    <div class="card">
+                        <div class="card-image waves-effect waves-block waves-light">
+                            <img class="activator main-cart-image" src="../img/<?= $item->image ?>">
+                        </div>
+                        <div class="card-content">
+                            <?php if (Yii::$app->user->isGuest): ?>
+                                <p><a class="link-to-autorization"
+                                      href="<?= \yii\helpers\Url::to(['/user/sign-in']) ?>">Для заказа блюда необходимо
+                                        авторизироваться</a></p>
+                            <?php else: ?>
+                                <div class="addInShopCart">
+                                    <p><a href="<?= \yii\helpers\Url::to(['menu/add-to-cart', 'id' => $item->id]) ?>"
+                                          class="btn-floating btn-large halfway-fab waves-effect waves-light red"><i
+                                                    class="material-icons">add_shopping_cart</i></a></p>
+                                </div>
                             <?php endif; ?>
-                            <?php Pjax::end(); ?>
+                            <span class="card-title activator grey-text text-darken-4"><?= $item->name ?><i
+                                        class="material-icons right">more_vert</i></span>
+                        </div>
+                        <div class="card-reveal">
+                            <span class="card-title grey-text text-darken-4"><?= $item->name ?><i
+                                        class="material-icons right">close</i></span>
+                            <p><?= $item->cost . ' BYN  ' . $item->weight . ' грамм' ?></p>
+                            <p><?= $item->components ?></p>
                         </div>
                     </div>
-                </div>
-            </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </div>
 </div>
-</div>
-

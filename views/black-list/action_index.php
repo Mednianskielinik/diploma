@@ -8,12 +8,9 @@ use yii\grid\GridView;
 use yii\grid\SerialColumn;
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
-use yii\widgets\Breadcrumbs;
 use app\assets\SalesAsset;
 use app\models\BlackList;
 use yii\helpers\Url;
-use app\models\Sales;
-use yii\grid\ActionColumn;
 use rmrevin\yii\fontawesome\FAS;
 use yii\widgets\Pjax;
 
@@ -22,17 +19,7 @@ SalesAsset::register($this);
 $this->title = 'Черный список';
 ?>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-xs-12">
-            <?= Breadcrumbs::widget(['homeLink' => ['label' => 'Home', 'url' => '/'],
-                'links' => [['label' => $this->title],
-                ],
-            ]) ?>
-        </div>
-    </div>
-</div>
-<div class="container-fluid">
+<div class="container">
     <div class="panel panel-default">
         <div class="panel-heading">Настройки</div>
         <div class="panel-body">
@@ -79,6 +66,7 @@ $this->title = 'Черный список';
                     'id' => 'blackListGridPjax',
                 ]); ?>
                 <?= GridView::widget(['dataProvider' => $dataProvider,
+                    'summary' => false,
                     'tableOptions' => [
                             'class' => 'table table-striped table-bordered table-middle-vertical table-long-content grid-view-header'
                     ],

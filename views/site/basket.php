@@ -4,8 +4,6 @@
 /* @var $model app\models\Menu */
 /* @var $sum string */
 
-use yii\helpers\Html;
-use yii\widgets\Breadcrumbs;
 use app\models\Sales;
 use app\assets\MenuAsset;
 use app\models\BlackList;
@@ -23,7 +21,7 @@ $totalSum = Sales::getSumWithSale($sum, Yii::$app->user->id, (new \DateTime('now
 $fine = BlackListSettings::getFine();
 ?>
 <?php if (!empty(\Yii::$app->cart->getPositions())):?>
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-xs-12">
             Сумма заказа: <?= $sum ?> BYN <br>
@@ -40,7 +38,7 @@ $fine = BlackListSettings::getFine();
 <?php Pjax::begin(['timeout' => 7000,
     'id' => 'menuGridPjax',
 ]); ?>
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <div class="inner-page padd">
             <div class="shopping">

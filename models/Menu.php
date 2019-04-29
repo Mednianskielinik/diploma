@@ -15,6 +15,7 @@ class Menu extends ActiveRecord implements CartPositionInterface
 
     protected $_product;
     public $price;
+    public $searchProduct;
     public $color;
     public $imageFile;
     public $categories = [ 1 => 'Десерты', 2 => 'Горячие блюда', 3 => 'Супы', 4 => 'Закуски'];
@@ -28,7 +29,7 @@ class Menu extends ActiveRecord implements CartPositionInterface
         return[
             [['name', 'components', 'cost', 'weight', 'image'], 'required'],
             [['name', 'components', 'cost', 'weight', 'image'], 'string'],
-            [['name', 'category', 'components', 'cost', 'weight', 'imageFile', 'is_deleted'], 'safe'],
+            [['name', 'category', 'components', 'cost', 'weight', 'imageFile', 'is_deleted', 'searchProduct'], 'safe'],
             [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg, gif']
         ];
     }
@@ -38,6 +39,18 @@ class Menu extends ActiveRecord implements CartPositionInterface
         $query = self::find()->where(['=', 'is_deleted', false]);
         if (isset($category) && !empty($category)) {
             $query->andWhere(['=', 'category', $category]);
+        }
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        return $dataProvider;
+    }
+
+    public function searchDish($dish = null)
+    {
+        $query = self::find()->where(['=', 'is_deleted', false]);
+        if (isset($dish) && !empty($dish)) {
+            $query->andWhere(['like', 'name', $dish]);
         }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

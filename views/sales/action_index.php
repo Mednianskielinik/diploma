@@ -3,50 +3,29 @@
 /* @var $dataProvider \yii\data\ActiveDataProvider */
 /* @var $model app\models\Sales */
 
-use yii\grid\GridView;
+use macgyer\yii2materializecss\widgets\grid\GridView;
+use macgyer\yii2materializecss\widgets\grid\ActionColumn;
 use yii\grid\SerialColumn;
 use yii\helpers\Html;
-use yii\widgets\Breadcrumbs;
 use app\assets\SalesAsset;
 use app\models\Sales;
-use yii\grid\ActionColumn;
 use rmrevin\yii\fontawesome\FAS;
 use yii\widgets\Pjax;
 
 SalesAsset::register($this);
 
 $this->title = 'Скидочные этапы';
-if (isset($request)) {
-print_r($request);
-}
 ?>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-xs-12">
-            <?= Breadcrumbs::widget(['homeLink' => ['label' => 'Home', 'url' => '/'],
-                'links' => [['label' => $this->title],
-                ],
-            ]) ?>
-        </div>
-    </div>
-</div>
-<div class="container-fluid">
+<div class="container">
     <div class="panel panel-default">
-        <div class="panel-heading">Скидочные этапы</div>
         <div class="panel-body">
             <div class="container-fluid margin-top-20">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-xs-12">
-                        <?= Html::a('Добавить',
-                            [
-                                'sales/create-sales',
-                            ],
-                            [
-                                'id' => 'addSales',
-                                'class' => 'btn btn-warning btn_width_95',
-                            ]
-                        ); ?>
+                        <?= $this->render('@app/views/sales/partial/modal', [
+                            'model' => new Sales(),
+                        ]); ?>
                     </div>
                 </div>
             </div>
@@ -58,6 +37,7 @@ print_r($request);
                             'id' => 'salesGridPjax',
                         ]); ?>
                         <?= GridView::widget(['dataProvider' => $dataProvider,
+                            'summary' => false,
                             'tableOptions' => [
                                 'class' => 'table table-striped table-bordered table-middle-vertical table-long-content grid-view-header'
                             ],
@@ -92,35 +72,23 @@ print_r($request);
                                 [
                                     'enableSorting' => false,
                                     'headerOptions' => ['class' => 'text-center'],
+                                    'contentOptions' => ['class' => 'text-center'],
                                     'attribute' => 'color',
                                     'content'   => function ($model) {
                                         return "<div class='cell-color' style='background-color: " . $model->color . ";'></div>";
                                     },
                                 ],
                                 [
-                                    'class' => ActionColumn::class,
-                                    'headerOptions' => ['class' => 'text-center'],
+                                    'class'          => ActionColumn::class,
+                                    'template'       => '{delete}',
+                                    'headerOptions'  => ['class' => 'text-center'],
                                     'contentOptions' => ['class' => 'text-center'],
-                                    'header' => 'Actions',
-                                    'template' => $this->render('partial/setting'),
-                                    'buttons' => [
-                                        'update' => function ($url, $model) {
-                                            $icon = FAS::icon('edit', ['class' => 'fa-fw', ]);
-                                            return Html::a($icon . ' Edit',
-                                                [
-                                                    'sales/update-sales',
-                                                    'id' => $model->id,
-                                                ],
-                                                [
-                                                    'data-pjax' => 0,
-                                                    'class' => 'update',
-                                                ]
-                                            );
-                                        },
+                                    'header'         => 'Действия',
+                                    'buttons'        => [
                                         'delete' => function ($url, $model) {
                                             $icon = FAS::icon('trash', ['class' => 'fa-fw']);
 
-                                            return Html::a($icon . ' Delete',
+                                            return Html::a($icon . ' Удалить',
                                                 ['sales/delete-sales', 'id' => $model->id],
                                                 [
                                                     'data-pjax' => 0,
@@ -129,7 +97,7 @@ print_r($request);
                                             );
                                         },
                                     ]
-                                ]
+                                ],
                             ],
                         ]); ?>
                         <?php Pjax::end(); ?>
@@ -139,8 +107,4 @@ print_r($request);
         </div>
     </div>
 </div>
-
-<?= $this->render('@app/views/sales/partial/modal', [
-    'model' => new Sales(),
-]); ?>
 <?= $this->render('@app/components/modalDelete/modalDelete'); ?>

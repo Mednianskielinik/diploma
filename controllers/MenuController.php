@@ -65,9 +65,7 @@ class MenuController extends Controller
             $model->save();
         }
 
-        return $this->renderAjax('partial/modal', [
-            'model' => $model,
-        ]);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionAddToCart($id)
@@ -83,15 +81,22 @@ class MenuController extends Controller
     }
 
     public function actionUpdateMenu($id) {
+        $this->enableCsrfValidation = false;
         $request = Yii::$app->request;
         $model = $this->findModelMenu($id);
-        if ($request->isPjax && $request->isPost && $model->load($request->post())) {
+        if ($request->isPost && $model->load($request->post())) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
             $model->update();
+            $model = new Menu();
+            $dataProvider = $model->search(isset($category) ? $category : '');
+            return $this->render('action_index', [
+                'model' => $model,
+                'dataProvider' => $dataProvider,
+            ]);
         }
 
-        return $this->renderAjax('partial/modal', [
+        return $this->render('partial/update_menu', [
             'model' => $model,
         ]);
     }
@@ -132,5 +137,18 @@ class MenuController extends Controller
         $position = $cart->getPositionById($id);
         $cart->update($position, $position->getQuantity() + 1);
         return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionSearch()
+    {
+        $request = Yii::$app->request;
+        print_r($request);die;
+        $model = new Menu();
+        $dataProvider = $model->search(isset($category) ? $category : '');
+
+        return $this->render('action_index', [
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 }

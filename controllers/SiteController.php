@@ -61,11 +61,16 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($searchMenu = false)
     {
         $model = new Menu();
-        $dataProvider = $model->search();
-        return $this->render('index',['dataProvider' => $dataProvider,]);
+        if (isset($searchMenu) && !empty($searchMenu)) {
+            $dataProvider = $model->searchDish($searchMenu);
+            return $this->render('/menu/action_index',['dataProvider' => $dataProvider, 'model' => $model]);
+        } else {
+            $dataProvider = $model->search();
+        }
+        return $this->render('index',['dataProvider' => $dataProvider, 'model' => $model]);
     }
 
     /**

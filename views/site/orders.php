@@ -1,8 +1,8 @@
 <?php
 use app\assets\MenuAsset;
 use \app\models\Sales;
-use yii\widgets\ActiveForm;
-use kartik\select2\Select2;
+use macgyer\yii2materializecss\widgets\form\ActiveForm;
+use macgyer\yii2materializecss\widgets\form\Select;
 use app\models\Order;
 use rmrevin\yii\fontawesome\FAS;
 use yii\helpers\Html;
@@ -11,7 +11,9 @@ MenuAsset::register($this);
 
 /* @var $orders array */
 /* @var $model Order */
-
+?>
+<div class="container">
+<?php
 $form = ActiveForm::begin([
     'method'  => 'post',
     'action'  => ['/site/orders'],
@@ -19,13 +21,9 @@ $form = ActiveForm::begin([
         'data-pjax' => 1,
     ]
 ]); ?>
-    <?= $form->field($model, 'confirm_filter')->widget(Select2::class, [
-        'hideSearch' => true,
-        'data' => [Order::ALL_ORDERS => 'Все заказы',Order::CONFIRM_ORDERS => 'Доставленные заказы', Order::NOT_CONFIRM_ORDERS => 'Заказы на обработке'],
+    <?= $form->field($model, 'confirm_filter')->widget(Select::class, [
+        'items' => [Order::ALL_ORDERS => 'Все заказы',Order::CONFIRM_ORDERS => 'Доставленные заказы', Order::NOT_CONFIRM_ORDERS => 'Заказы на обработке'],
         'options' => ['placeholder' => 'Все заказы'],
-        'pluginOptions' => [
-            'allowClear' => false
-        ],
     ])->label('Статус заказа') ?>
     <?= Html::submitButton('Показать заказы',
     [
@@ -65,3 +63,4 @@ ActiveForm::end();
 
     </tr>
 </table>
+</div>

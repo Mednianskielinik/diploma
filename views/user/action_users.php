@@ -3,35 +3,21 @@
 /* @var $dataProvider \yii\data\ActiveDataProvider */
 /* @var $searchModel app\models\User */
 
-use yii\grid\GridView;
+use macgyer\yii2materializecss\widgets\grid\GridView;
 use yii\grid\SerialColumn;
 use app\models\BlackList;
-use yii\widgets\ActiveForm;
 use yii\helpers\Html;
-use yii\widgets\Breadcrumbs;
 use app\assets\SalesAsset;
-use app\models\Sales;
-use yii\grid\ActionColumn;
 use rmrevin\yii\fontawesome\FAS;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
 
 SalesAsset::register($this);
+\app\assets\AppAsset::register($this);
 
 $this->title = 'Черный список';
 ?>
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-xs-12">
-            <?= Breadcrumbs::widget(['homeLink' => ['label' => 'Home', 'url' => '/'],
-                'links' => [['label' => $this->title],
-                ],
-            ]) ?>
-        </div>
-    </div>
-</div>
-<div class="container-fluid">
+<div class="container">
     <div class="container-fluid margin-top-5">
         <div class="row">
             <div class="col-xs-12 col-md-12 col-lg-12">
@@ -39,6 +25,7 @@ $this->title = 'Черный список';
                     'id' => 'blackListGridPjax',
                 ]); ?>
                 <?= GridView::widget([
+                    'summary' => false,
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
                     'tableOptions' => [
@@ -103,7 +90,6 @@ $this->title = 'Черный список';
                                 }
                             ]
                         ]
-
                     ],
                 ]); ?>
                 <?php Pjax::end(); ?>

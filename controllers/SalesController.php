@@ -74,7 +74,7 @@ class SalesController extends Controller
             $model->save();
         }
 
-        return $this->renderAjax('partial/modal', [
+        return $this->render('partial/modal', [
             'model' => $model,
         ]);
     }
