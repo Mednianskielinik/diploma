@@ -66,7 +66,9 @@ class SiteController extends Controller
         $model = new Menu();
         if (isset($searchMenu) && !empty($searchMenu)) {
             $dataProvider = $model->searchDish($searchMenu);
-            return $this->render('/menu/action_index',['dataProvider' => $dataProvider, 'model' => $model]);
+            if (!Yii::$app->user->isGuest) {
+                return $this->render('/menu/action_index', ['dataProvider' => $dataProvider, 'model' => $model]);
+            }
         } else {
             $dataProvider = $model->search();
         }
@@ -86,50 +88,6 @@ class SiteController extends Controller
             $sum += $count;
         }
         return $this->render('basket', ['sum' => $sum]);
-    }
-
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
-    public function actionSignUp()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
     }
 
     /**

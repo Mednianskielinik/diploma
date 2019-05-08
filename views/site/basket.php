@@ -2,6 +2,7 @@
 /* @var $this yii\web\View */
 /* @var $dataProvider \yii\data\ActiveDataProvider */
 /* @var $model app\models\Menu */
+
 /* @var $sum string */
 
 use app\models\Sales;
@@ -20,55 +21,58 @@ if (isset($request)) {
 $totalSum = Sales::getSumWithSale($sum, Yii::$app->user->id, (new \DateTime('now'))->format('Y-m-d H:i:s'));
 $fine = BlackListSettings::getFine();
 ?>
-<?php if (!empty(\Yii::$app->cart->getPositions())):?>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-xs-12">
-            Сумма заказа: <?= $sum ?> BYN <br>
-            Ваша скидка: <?=Sales::getSale(Yii::$app->user->id, (new \DateTime('now'))->format('Y-m-d H:i:s'))?>%<br>
-            <?php if (BlackList::isUserInBlackList(Yii::$app->user->id) && BlackList::userCountDayInBlackList(Yii::$app->user->id) > 0):?>
-            Штраф : <?=$fine?> <br>
-            <?php endif;?>
-            Итого:  <?=$totalSum+$fine?>
-            <br><a href="<?= \yii\helpers\Url::to(['site/confirm-order'])?>" class="btn btn-success">Подтвердить заказ</a>
-            <hr>
-        </div>
-    </div>
-</div>
-<?php Pjax::begin(['timeout' => 7000,
-    'id' => 'menuGridPjax',
-]); ?>
-<div class="container">
-    <div class="row">
-        <div class="inner-page padd">
-            <div class="shopping">
-                <div class="container">
-                    <div class="shopping-content">
-                        <div class="row">
-                            <?php foreach (\Yii::$app->cart->getPositions() as $item):?>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="shopping-item">
-                                    <div class="add-to-cart"><a href="<?= \yii\helpers\Url::to(['menu/delete-from-cart', 'id' => $item->id])?>"><i class="fas fa-times-circle"></i> Убрать из корзины</a></div>
-                                    <div class="image"><img class="img-responsive" src="../img/<?=$item->image?>" alt="" /></div>
-                                    <div class="product"><h4><?=$item->name?></h4></div>
-                                    <div class="item-price"><?=$item->cost?> BYN</div>
-                                    <div class="item-weight"><?=$item->weight?> грамм</div>
-                                    <a href="<?= \yii\helpers\Url::to(['menu/plus-from-cart', 'id' => $item->id])?>"><div class="clearfix"><i class="fas fa-plus-circle"></i></div></a>
-                                    <div class="item-hover br-red hidden-xs"><?= $item->getQuantity()?></div>
-                                    <a href="<?= \yii\helpers\Url::to(['menu/minus-from-cart', 'id' => $item->id])?>"><div class="clearfix"><i class="fas fa-minus-circle"></i></div></a>
-                                </div>
-                            </div>
-                            <?php endforeach;?>
-                        </div>
-                    </div>
-                </div>
+<?php if (!empty(\Yii::$app->cart->getPositions())): ?>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-xs-12">
+                Сумма заказа: <?= $sum ?> BYN <br>
+                Ваша скидка: <?= Sales::getSale(Yii::$app->user->id, (new \DateTime('now'))->format('Y-m-d H:i:s')) ?>
+                %<br>
+                <?php if (BlackList::isUserInBlackList(Yii::$app->user->id) && BlackList::userCountDayInBlackList(Yii::$app->user->id) > 0): ?>
+                    Штраф : <?= $fine ?> <br>
+                <?php endif; ?>
+                Итого: <?= $totalSum + $fine ?>
+                <br><a href="<?= \yii\helpers\Url::to(['site/confirm-order']) ?>" class="btn btn-success">Подтвердить
+                    заказ</a>
+                <hr>
             </div>
         </div>
     </div>
-</div>
-    <?php Pjax::end(); ?>
-<?php else:?>
-    <div> Ваш заказ отправлен на обработку оператору</div>
-<?php endif; ?>
+<div class="container">
+    <?php Pjax::begin(['timeout' => 7000,
+        'id' => 'menuGridPjax',
+    ]); ?>
+    <div class="wrapper">
+        <?php foreach (\Yii::$app->cart->getPositions() as $item): ?>
+            <div class="card">
+                <div class="card-image">
+                    <div class="image-block">
+                        <span class="basket-quantity">Количество: <?= $item->getQuantity() ?> </span>
+                        <span class="menu-weight"><?= $item->weight ?> грамм</span>
+                        <span class="menu-cost"><?= $item->cost ?> BYN</span>
+                        <img class="menu-image" src="../img/<?= $item->image ?>">
+                    </div>
+                    <span class="card-title"><?= $item->name ?></span>
+                        <a href="<?= \yii\helpers\Url::to(['menu/delete-from-cart', 'id' => $item->id]) ?>"
+                           class="btn-floating btn-large halfway-fab waves-effect waves-light red"><i
+                                    class="material-icons">remove_shopping_cart</i></a>
+                        <a href="<?= \yii\helpers\Url::to(['menu/minus-from-cart', 'id' => $item->id]) ?>"
+                           class="btn-floating halfway-fab waves-effect waves-light red basket-minus"><i
+                                    class="material-icons update">remove</i></a>
+                        <a href="<?= \yii\helpers\Url::to(['menu/plus-from-cart', 'id' => $item->id]) ?>"
+                           class="btn-floating halfway-fab waves-effect waves-light red basket-plus"><i
+                                    class="material-icons">add</i></a>
+                </div>
+                <div class="card-content">
+                    <p><?= $item->components ?></p>
+                </div>
 
+            </div>
+        <?php endforeach; ?>
+    </div>
+    <?php Pjax::end(); ?>
+<?php else: ?>
+    <div class="login-form-html"> Ваш заказ отправлен на обработку оператору</div>
+<?php endif; ?>
+</div>
 

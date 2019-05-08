@@ -13,18 +13,6 @@
         window.pjaxEndHideMenuModalAfterSave = true;
         var self = this;
 
-        this.$addMenu.on('click', function (e) {
-            e.preventDefault();
-            $.pjax.reload({
-                push: false,
-                replace: false,
-                url: $(this).attr('href'),
-                container: '#formMenu',
-                timeout: 7000
-            });
-            self.$modal.modal('show');
-            return false;
-        });
 
         this.$gridPjax.on('click', function (event) {
             console.log(event);

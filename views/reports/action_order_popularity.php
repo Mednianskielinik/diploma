@@ -22,7 +22,7 @@ $form = ActiveForm::begin([
 ReportsAsset::register($this);
 ?>
 
-<div class="container">
+<div class="report-container">
     <div class="row">
         <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 margin-bottom-10">
             <?= DatePicker::widget(['model' => $model,

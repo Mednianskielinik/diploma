@@ -46,7 +46,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             [['user_name', 'user_second_name', 'login', 'address', 'email', 'password', 'phone_number'], 'safe'],
-            [['user_name', 'user_second_name', 'login', 'address', 'email', 'password', 'phone_number'], 'required'],
+            [['user_name', 'user_second_name', 'login', 'address', 'email', 'password', 'phone_number'], 'required', 'message' => '{attribute} не может быть пустым'],
             ['login', 'unique', 'targetClass' => '\app\models\User', 'message' => 'Такое логин уже используется.'],
             ['login', 'string', 'min' => 5, 'max' => 255],
             ['email', 'email'],

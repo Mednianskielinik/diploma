@@ -21,7 +21,7 @@ $this->title = 'My Yii Application';
             <div class="col-lg-2 col-md-2 col-xs-2 center-block">
                 <?= Html::a('Все',
                     [
-                        'menu/index',
+                        'site/index',
                     ],
                     [
                         'class' => 'dish-type-button btn btn-warning btn_width_95',
@@ -32,8 +32,8 @@ $this->title = 'My Yii Application';
                 <div class="col-lg-2 col-md-2 col-xs-2 center-block">
                     <?= Html::a($category,
                         [
-                            'menu/index',
-                            'category' => $key,
+                            'site/index',
+                            'searchMenu' => $key,
                         ],
                         [
                             'class' => 'dish-type-button btn btn-warning btn_width_95',
@@ -52,7 +52,7 @@ $this->title = 'My Yii Application';
                         <div class="card-content">
                             <?php if (Yii::$app->user->isGuest): ?>
                                 <p><a class="link-to-autorization"
-                                      href="<?= \yii\helpers\Url::to(['/user/sign-in']) ?>">Для заказа блюда необходимо
+                                      href="<?= \yii\helpers\Url::to(['/user/login']) ?>">Для заказа блюда необходимо
                                         авторизироваться</a></p>
                             <?php else: ?>
                                 <div class="addInShopCart">

@@ -20,14 +20,14 @@ class LoginForm extends Model
     public function  attributeLabels()
     {
         return[
-            'login'=>'Имя',
+            'login'=>'Логин',
             'password'=>'Пароль',
         ];
     }
     public function rules()
     {
         return [
-            [['login', 'password'], 'required'],
+            [['login', 'password'], 'required', 'message' => '{attribute} не может быть пустым'],
             ['rememberMe', 'boolean'],
             ['password', 'validatePassword'],
         ];

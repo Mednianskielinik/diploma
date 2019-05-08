@@ -18,7 +18,7 @@ class Sales extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'sale', 'count_of_purchase', 'color'], 'required'],
+            [['name', 'sale', 'count_of_purchase', 'color'], 'required', 'message' => 'Поле {attribute} не может быть пустым'],
             [['sale', 'count_of_purchase'], 'integer'],
             [['color', 'name'], 'string'],
             [['name', 'sale', 'count_of_purchase', 'color'], 'safe'],

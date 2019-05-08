@@ -163,6 +163,14 @@ nav .sidenav-trigger {
     background: rgba(0, 0, 0, 0.73);
 }
 
+.basket-quantity {
+    color: #fff;
+    position: absolute;
+    max-width: 100%;
+    padding-top: 5%;
+    padding-left: 5%;
+}
+
 .menu-weight {
     color: #fff;
     position: absolute;
@@ -202,10 +210,10 @@ nav .sidenav-trigger {
 
 .card {
     margin: 10px;
-    height: 30em !important;
+    height: 35em !important;
 }
 .menu-image {
-    height: 15em;
+    height: 20em;
 }
 
 .main-cart-image {
@@ -356,6 +364,7 @@ body{
     position: relative;
     margin-top: -2em;
     margin-bottom: 2em;
+    cursor: pointer;
 }
 
 footer {
@@ -395,4 +404,31 @@ footer {
     border-radius: 50px;
     height: 50px;
     font-size: 26px;
+}
+
+a {
+    color: #0f0f0f;
+}
+
+.modal {
+    max-height: 100%
+}
+
+.report-container {
+    box-shadow: 0px 10px 11px 1px rgba(0,0,0,0.29);
+    padding: 3% 10%;
+    padding-bottom: 10%;
+    margin: 10px 5%;
+}
+
+.footer-logo {
+    max-height: 170px;
+}
+
+.basket-minus {
+    margin-right: 70px;
+}
+
+.basket-plus {
+    margin-right: 130px;
 }

@@ -23,7 +23,7 @@ $form = ActiveForm::begin([
 
 ReportsAsset::register($this);
 ?>
-<div class="container">
+<div class="report-container">
     <div class="row">
         <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 margin-bottom-10">
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 margin-bottom-10">

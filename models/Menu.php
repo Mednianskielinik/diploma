@@ -25,12 +25,25 @@ class Menu extends ActiveRecord implements CartPositionInterface
         return 'menu';
     }
 
+    public function  attributeLabels()
+    {
+        return[
+            'name'=>'название',
+            'components'=>'компоненты',
+            'cost'=>'стоимость',
+            'weight'=>'вес',
+            'image'=>'фото',
+            'imageFile' => 'изображение'
+        ];
+    }
+
     public function rules(){
         return[
-            [['name', 'components', 'cost', 'weight', 'image'], 'required'],
+            [['name', 'components', 'cost', 'weight', 'image', 'imageFile'], 'required'],
             [['name', 'components', 'cost', 'weight', 'image'], 'string'],
             [['name', 'category', 'components', 'cost', 'weight', 'imageFile', 'is_deleted', 'searchProduct'], 'safe'],
             [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg, gif']
+
         ];
     }
 

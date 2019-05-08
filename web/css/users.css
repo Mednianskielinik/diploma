@@ -1,3 +1,18 @@
 body {
-    background-image: url(images/bg.jpg); /* Путь к фоновому изображению */
+    background: url(../../img/form.jpg) no-repeat; /* Путь к фоновому изображению */
+    background-size: 100% auto;
+    background-repeat: repeat-y;
+}
+
+.login-html {
+    background-color: rgba(38, 166, 154, 0.7);
+    padding: 10%;
+    margin-bottom: -120px;
+    box-shadow: 0 0 7px 4px rgba(0,0,0,0.75);
+}
+
+.login-form-html {
+    background-color: rgba(255, 253, 254, 0.82);
+    box-shadow: 0 0 19px 5px rgba(0,0,0,0.75);
+    padding: 10%;
 }
