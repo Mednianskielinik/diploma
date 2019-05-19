@@ -3,6 +3,7 @@
 /* @var $dataProvider \yii\data\ActiveDataProvider */
 
 /* @var $model app\models\Menu */
+/* @var $dish string */
 
 use yii\helpers\Html;
 use app\assets\MenuAsset;
@@ -45,7 +46,9 @@ $icon = FAS::icon('edit', ['class' => 'fa-fw',]);
                         'category' => $key,
                     ],
                     [
-                        'class' => 'dish-type-button btn btn-warning btn_width_95',
+                        'class' => $key == $dish
+                            ? 'dish dish-type-button btn btn-warning btn_width_95'
+                            : 'dish-type-button btn btn-warning btn_width_95',
                     ]
                 ); ?>
             </div>

@@ -93,7 +93,7 @@ Modal::begin([
                 <?= $form->field($model, 'weight')->textInput(['placeholder' => 'Вес'])->label(false); ?>
             </div>
             <div class="col-lg-12 col-md-12 col-xs-12">
-                <?= $form->field($model, 'imageFile')->fileInput()->label(false) ?>
+                <?= $form->field($model, 'imageFile')->fileInput(['class' => 'btn'])->label(false) ?>
             </div>
             <div class="col-lg-12 col-md-12 col-xs-12 form-group notifications">
                 <?php if ($model->hasErrors()): ?>

@@ -239,7 +239,7 @@ body{
 
 .searchTerm {
     width: 100%;
-    border: 3px solid #26a69a;
+    border: 3px solid #810509;
     border-right: none;
     padding: 5px;
     height: 20px;
@@ -249,14 +249,14 @@ body{
 }
 
 .searchTerm:focus{
-    color: #26a69a;
+    color: #810509;
 }
 
 .searchButton {
     width: 40px;
     height: 45px;
-    border: 1px solid #26a69a;
-    background: #26a69a;
+    border: 1px solid #810509;
+    background: #810509;
     text-align: center;
     color: #fff;
     border-radius: 0 5px 5px 0;
@@ -357,7 +357,7 @@ body{
 }
 
 .link-to-autorization {
-    color: #26a69a;
+    color: #810509;
 }
 
 .addInShopCart {
@@ -431,4 +431,42 @@ a {
 
 .basket-plus {
     margin-right: 130px;
+}
+
+nav {
+    background-color: #795b4c !important;
+}
+
+.btn {
+    background-color: #810509;
+}
+
+.sidenav-trigger {
+    background-color: rgba(15, 15, 15, 0);
+}
+
+.sidenav-trigger:hover {
+    background-color: #810509;
+}
+
+.searchButton:hover {
+    background-color: #d4433c;
+    border: none;
+}
+
+.btn:hover {
+    background-color: #d4433c;
+    border: none;
+}
+
+.searchMenu:active {
+    border-bottom: #761c19;
+}
+
+footer {
+    background-color: #795b4c !important;
+}
+
+.dish {
+    background-color: #390405;
 }

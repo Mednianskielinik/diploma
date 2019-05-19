@@ -49,23 +49,8 @@ class MenuController extends Controller
         return $this->render('action_index', [
             'model' => $model,
             'dataProvider' => $dataProvider,
+            'dish' => $category
         ]);
-    }
-
-    /**
-     * @return string
-     */
-    public function actionCreate() {
-        $request = Yii::$app->request;
-        $model = new Menu();
-
-        if ($request->isPjax && $request->isPost && $model->load($request->post())) {
-            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
-            $model->save();
-        }
-
-        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionAddToCart($id)
@@ -78,6 +63,19 @@ class MenuController extends Controller
             return $this->redirect(Yii::$app->request->referrer);
         }
         throw new NotFoundHttpException();
+    }
+
+    public function actionCreate() {
+        $request = Yii::$app->request;
+        $model = new Menu();
+
+        if ($request->isPjax && $request->isPost && $model->load($request->post())) {
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
+            $model->save();
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionUpdateMenu($id) {
@@ -93,6 +91,7 @@ class MenuController extends Controller
             return $this->render('action_index', [
                 'model' => $model,
                 'dataProvider' => $dataProvider,
+                'dish' => null,
             ]);
         }
 

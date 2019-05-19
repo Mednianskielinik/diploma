@@ -67,12 +67,12 @@ class SiteController extends Controller
         if (isset($searchMenu) && !empty($searchMenu)) {
             $dataProvider = $model->searchDish($searchMenu);
             if (!Yii::$app->user->isGuest) {
-                return $this->render('/menu/action_index', ['dataProvider' => $dataProvider, 'model' => $model]);
+                return $this->render('/menu/action_index', ['dataProvider' => $dataProvider, 'model' => $model, 'dish' => $searchMenu]);
             }
         } else {
             $dataProvider = $model->search();
         }
-        return $this->render('index',['dataProvider' => $dataProvider, 'model' => $model]);
+        return $this->render('index',['dataProvider' => $dataProvider, 'model' => $model, 'dish' => $searchMenu]);
     }
 
     /**

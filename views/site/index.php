@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
+/* @var $dish string */
 
 MenuAsset::register($this);
 $this->title = 'My Yii Application';
@@ -36,7 +37,9 @@ $this->title = 'My Yii Application';
                             'searchMenu' => $key,
                         ],
                         [
-                            'class' => 'dish-type-button btn btn-warning btn_width_95',
+                            'class' => $key == $dish
+                                ? 'dish dish-type-button btn btn-warning btn_width_95'
+                                : 'dish-type-button btn btn-warning btn_width_95',
                         ]
                     ); ?>
                 </div>
